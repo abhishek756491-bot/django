@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+{% include 'Header.html' %}
+
+<h1>This is home page</h1>
+
+<img src="{% static 'images/black seltos.jpeg' %}" alt="Car Image">
+
+<br><br>
+
+<a href="/about/">About</a>
+
+<a href="/contact/">Contact</a>
+
+{% include 'Footer.html' %}
+
+{% endblock %}

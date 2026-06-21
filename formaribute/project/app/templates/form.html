@@ -1,0 +1,81 @@
+
+
+
+
+<html lang="en">
+
+
+
+<head>
+
+
+
+<meta charset="UTF-8">
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student form</title>
+
+
+
+</head>
+
+
+
+<body>
+
+
+
+<form method="post"
+
+> # if you are posting the data then you want to pass the csrf token it is compulsory
+
+
+{% csrf_token %}
+
+
+
+
+<label>Name</label>
+
+<input type="text" name="name"> #name is the same as you given in the views.py request.post.get('name')
+
+<label>Email</label>
+
+<input type="email" name="email">
+
+<label>Age</label>
+
+<input type="number" name="age">
+
+<label>Gender</label>
+
+<input type="radio" name="gender" value="male">Male
+
+<input type="radio" name="gender" value="female">Female
+
+<label>Skills</label>
+
+
+
+<input type="checkbox" name="skills" value="python">Python
+
+<input type="checkbox" name="skills" value="django">Django
+
+<input type="checkbox" name="skills" value="flask">Flask
+
+
+
+<label>Select image: </label>
+
+
+
+<input type="file" name="image">
+
+
+
+<button type="submit" value="submit" name="image">Submit</button>
+
+</form>

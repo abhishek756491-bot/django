@@ -1,0 +1,18 @@
+this is about page
+
+{{student}}
+
+{% for student in students %}
+<h1>{{student | upper}}</h1>
+<h1>{{student | lower}}</h1>
+<h1>{{student | title}}</h1>
+<h1>{{student | length}}</h1>
+<h1>{{student | default:'not found'}}</h1>
+<h1>{{student | truncatechars:4}}</h1>
+{% empty %}
+<h1>no student found</h1>
+{% endfor %}
+
+{% for student in students %}
+<h1>{{forloop.counter}}-{{student}}</h1>
+{% endfor %}
