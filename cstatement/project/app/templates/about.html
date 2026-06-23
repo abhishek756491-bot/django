@@ -1,18 +1,54 @@
 this is about page
 
-{{student}}
 
-{% for student in students %}
-<h1>{{student | upper}}</h1>
-<h1>{{student | lower}}</h1>
-<h1>{{student | title}}</h1>
-<h1>{{student | length}}</h1>
-<h1>{{student | default:'not found'}}</h1>
-<h1>{{student | truncatechars:4}}</h1>
-{% empty %}
+
+<h1>UpperCase : {{title | upper}}</h1>
+<h1>LowerCase : {{title | lower}}</h1>
+<h1>TitleCase : {{title | title}}</h1>
+<h1>length : {{title | length}}</h1>
+<h1>first_capital : {{title | capfirst}}</h1>
+<h1>length : {{title | length}}</h1>
+<!-- <h1>{{title | default:'not found'}}</h1> -->
+<h1>TruncateChar : {{title | truncatechars:6}}</h1>
+<h1>TruncateChar : {{title | truncatewords:3}}</h1>
+<h1>TruncateChar : {{title | linebreaks}}</h1>
+{# {% empty %} #} 
 <h1>no student found</h1>
-{% endfor %}
+<hr>
+{% comment %} add {% endcomment %}
+<h3>Original_price: {{price}}</h3>
+<h3>Inhenced_price: {{price|add:5}}</h3>
 
+{% comment %} devide {% endcomment %}
+{% if number|divisibleby:2 %}
+<P>{{number }}is even</P>
+{% else %}
+<P>{{number}} is odd</P>
+{% endif %}
+
+{% comment %} list filter {% endcomment %}
+<P>first_tags: <b>{{tags|first}}</b></P>
+<P>Length_tags: <b>{{tags|length}}</b></P>
+<P>slice(first_2): <b>{{tags|slice:":2" }}</b></P>
+<P>join_tags: <b>{{tags|join:","}}</b></P>
+
+<P>author_available: <b>{{author|yesno:"Yes,No,MayBe"}}</b></P>
+<P>plularize: <b>{{comments_count}} comment{{comments_count|pluralize}}</b></P>
+
+<p>created_at: {{created_at}}</p>
+<p>formate date: {{created_at|date:"D d M Y"}}</p>
+<p>time:{{created_at|time:"H:i"}} </p>
+<p>time:{{created_at|timesince}} </p>
+<p>time:{{created_at|timeuntil}} </p>
+
+
+<p>title_encode : {{title|urlencode}}</p>
+<p>float formate : {{25415.1455455|floatformat:2}}</p>
+
+{# {% endfor %} #}
+
+{% comment %}
 {% for student in students %}
 <h1>{{forloop.counter}}-{{student}}</h1>
-{% endfor %}
+{% endcomment %}
+{#{% endfor %}#}

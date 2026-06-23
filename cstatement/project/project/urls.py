@@ -1,9 +1,10 @@
 from django.contrib import admin
 from django.urls import path
-from app.views import *   # myapp ki jagah apne app ka naam likho
+from app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', home, name='home'),
-    path('about/', about, name='about'),
+    path('',views.about, name='about'),
+    path('home/', views.home, name='home'),
+    
 ]
