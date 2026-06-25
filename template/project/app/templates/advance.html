@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Rare {% endblock %}
+
+{% block content %}
+  <h1>Rare</h1>
+
+  {% regroup students by class as grouped_students %}
+  <ul>
+      {% for group in grouped_students%}
+      <li>Class {{group.grouper}}
+      <ul>
+          {% for student in group.list %}
+          <li>{{ student.name }}</li>
+          {% endfor %}
+      </ul>
+      </li>
+      {% endfor %}
+  </ul>
+
+  <p>
+    progress : {% widthratio 50 100 100 %} %
+  </p>
+
+  {% spaceless %}
+  <div>
+    <span>  this is a mango</span>
+    <span>  spaceless    Example</span>
+  </div>
+  {% endspaceless %}
+
+  {% filter upper %}
+  this is a fjango profile
+  {% endfilter %}
+
+{% endblock %}
