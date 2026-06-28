@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+
+<div class="card mb-3" style="width:100vw; height: 100vw;">
+  <div class="row g-0">
+    
+    <div class="col-md-8 p-5 pt-5 w-40">
+      <div class="card-body ">
+        <h5 class="card-title fs-2">Medical and Heath care services</h5>
+        <p class="card-text">Your health is our top priority. Schedule an appointment with us today</p>
+        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+        <a class="btn btn-primary" href="#" role="button">Book &rarr;</a>
+      </div>
+    </div>
+    <div class="col-md-4 w-45 ">
+      <img src="{% static 'images/dphoto1.png' %}" class="img-fluid rounded-start" alt="dphoto1">
+    </div>
+  </div>
+</div>
+
+ 
+{% endblock %}

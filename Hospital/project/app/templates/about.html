@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load static %}
+{% include 'navbar.html' %}
+<div class="container p3-5">
+
+    <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="row g-0 align-items-center">
+
+            <!-- Left Image -->
+            <div class="col-lg-5">
+                <img src="{% static 'images/dphoto1.png' %}"
+                     class="img-fluid w-100 h-100"
+                     style="object-fit: cover; min-height:450px;"
+                     alt="Doctor">
+            </div>
+
+            <!-- Right Content -->
+            <div class="col-lg-7">
+                <div class="card-body p-5">
+
+                    <span class="badge bg-primary mb-3 fs-6">
+                        Healthcare Services
+                    </span>
+
+                    <h2 class="fw-bold mb-4">
+                        World Class Patient Facilities Designed For You
+                    </h2>
+
+                    <p class="text-muted fs-5">
+                        We provide advanced healthcare facilities with experienced doctors,
+                        modern equipment, and compassionate care to ensure every patient
+                        receives the best treatment in a safe and comfortable environment.
+                    </p>
+
+                    <!-- About Button -->
+                    <a href="#" class="btn btn-primary btn-lg rounded-pill px-4 mt-3">
+                        About Us →
+                    </a>
+
+                    <hr class="my-4">
+
+                    <!-- Contact -->
+                    <div class="d-flex align-items-center">
+
+                        <div class="bg-primary rounded-circle d-flex justify-content-center align-items-center"
+                             style="width:60px;height:60px;">
+                            <i class="fa-solid fa-phone text-white fs-4"></i>
+                        </div>
+
+                        <div class="ms-3">
+                            <small class="text-secondary">
+                                24×7 Emergency Helpline
+                            </small>
+
+                            <h4 class="fw-bold text-primary mb-0">
+                                +91 75649 17781
+                            </h4>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}
