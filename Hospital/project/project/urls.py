@@ -23,5 +23,5 @@ urlpatterns = [
     path('home',views.home,name='home'),
     path('base',views.base,name='base'),
     path('about',views.about,name='about'),
-    path('',views.services,name='services')
+    path('services',views.services,name='services')
 ]
