@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<div class="d-flex justify-content-between mb-3">
+    <h2>Doctor List</h2>
+
+    <a href="{% url 'add_doctor' %}" class="btn btn-primary">
+        Add Doctor
+    </a>
+</div>
+
+<table class="table table-bordered table-hover">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>ID</th>
+<th>Name</th>
+<th>Department</th>
+<th>Specialization</th>
+<th>Phone</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for doctor in doctors %}
+
+<tr>
+
+<td>{{ doctor.id }}</td>
+
+<td>{{ doctor.name }}</td>
+
+<td>{{ doctor.department.name }}</td>
+
+<td>{{ doctor.specialization }}</td>
+
+<td>{{ doctor.phone }}</td>
+
+<td>
+
+<a href="{% url 'edit_doctor' doctor.id %}"
+class="btn btn-warning btn-sm">
+
+Edit
+
+</a>
+
+<a href="{% url 'delete_doctor' doctor.id %}"
+class="btn btn-danger btn-sm">
+
+Delete
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}
