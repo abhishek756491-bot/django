@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<div class="d-flex justify-content-between">
+
+<h2>Billing</h2>
+
+<a href="{% url 'add_bill' %}" class="btn btn-primary">
+Generate Bill
+</a>
+
+</div>
+
+<table class="table table-bordered mt-3">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>Patient</th>
+<th>Appointment</th>
+<th>Total</th>
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for i in bills %}
+
+<tr>
+
+<td>{{ i.patient }}</td>
+
+<td>{{ i.appointment }}</td>
+
+<td>₹ {{ i.total_amount }}</td>
+
+<td>{{ i.payment_status }}</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

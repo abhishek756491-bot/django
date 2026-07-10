@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login, logout
 from .models import *
 
 # Dashboard
@@ -152,3 +153,165 @@ def add_appointment(request):
             "doctors": doctors
         }
     )
+
+#---------------------- view appointment detail--------------------
+def billing_list(request):
+
+    bills = Bill.objects.all()
+
+    return render(
+        request,
+        "billing/list.html",
+        {"bills": bills}
+    )
+
+
+def add_bill(request):
+
+    patients = Patient.objects.all()
+
+    appointments = Appointment.objects.all()
+
+    if request.method == "POST":
+
+        doctor_fee = float(request.POST["doctor_fee"])
+        medicine = float(request.POST["medicine_charge"])
+        room = float(request.POST["room_charge"])
+
+        total = doctor_fee + medicine + room
+
+        Bill.objects.create(
+
+            patient=Patient.objects.get(
+                id=request.POST["patient"]
+            ),
+
+            appointment=Appointment.objects.get(
+                id=request.POST["appointment"]
+            ),
+
+            doctor_fee=doctor_fee,
+
+            medicine_charge=medicine,
+
+            room_charge=room,
+
+            total_amount=total,
+
+            payment_status=request.POST["payment_status"]
+
+        )
+
+        return redirect("billing_list")
+
+    return render(
+        request,
+        "billing/add.html",
+        {
+            "patients": patients,
+            "appointments": appointments
+        }
+    )
+
+#------------------------DEpartment list------------------------
+from .models import Department
+
+# Department List
+def department_list(request):
+    departments = Department.objects.all()
+
+    return render(
+        request,
+        "department/list.html",
+        {
+            "departments": departments
+        }
+    )
+
+
+# Add Department
+def add_department(request):
+
+    if request.method == "POST":
+
+        Department.objects.create(
+
+            name=request.POST['name'],
+            description=request.POST['description']
+
+        )
+
+        return redirect("department_list")
+
+    return render(request,"department/add.html")
+
+
+# Edit Department
+def edit_department(request,id):
+
+    department = Department.objects.get(id=id)
+
+    if request.method=="POST":
+
+        department.name=request.POST['name']
+        department.description=request.POST['description']
+
+        department.save()
+
+        return redirect("department_list")
+
+    return render(
+        request,
+        "department/edit.html",
+        {
+            "department":department
+        }
+    )
+
+
+# Delete Department
+def delete_department(request,id):
+
+    department=Department.objects.get(id=id)
+
+    department.delete()
+
+    return redirect("department_list")
+
+
+#-------------------------Login and Logout------------------------
+
+
+def login_user(request):
+
+    if request.method == "POST":
+
+        username = request.POST["username"]
+        password = request.POST["password"]
+
+        user = authenticate(
+            request,
+            username=username,
+            password=password
+        )
+
+        if user is not None:
+            login(request, user)
+            return redirect("dashboard")
+
+        else:
+            return render(
+                request,
+                "login.html",
+                {
+                    "error":"Invalid Username or Password"
+                }
+            )
+
+    return render(request,"login.html")
+
+def logout_user(request):
+
+    logout(request)
+
+    return redirect("login")

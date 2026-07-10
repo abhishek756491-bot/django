@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<div class="d-flex justify-content-between">
+
+<h2>Department List</h2>
+
+<a href="{% url 'add_department' %}"
+class="btn btn-primary">
+
+Add Department
+
+</a>
+
+</div>
+
+<table class="table table-bordered mt-3">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>ID</th>
+
+<th>Name</th>
+
+<th>Description</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for d in departments %}
+
+<tr>
+
+<td>{{ d.id }}</td>
+
+<td>{{ d.name }}</td>
+
+<td>{{ d.description }}</td>
+
+<td>
+
+<a href="{% url 'edit_department' d.id %}"
+class="btn btn-warning btn-sm">
+
+Edit
+
+</a>
+
+<a href="{% url 'delete_department' d.id %}"
+class="btn btn-danger btn-sm">
+
+Delete
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}
