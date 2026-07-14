@@ -63,3 +63,15 @@ class Appointment(models.Model):
 
 # crud
 
+class PatientModel(models.Model):
+    patient_name = models.CharField(max_length=50)
+    patient_email = models.EmailField()
+    patient_city = models.CharField(max_length=50)
+    patient_mobile = models.IntegerField()
+    patient_password = models.CharField(max_length=25)
+
+
+class PatientQuery(models.Model):
+    patient_name = models.CharField(max_length=50)
+    patient_email = models.EmailField()
+    patient_query = models.TextField()

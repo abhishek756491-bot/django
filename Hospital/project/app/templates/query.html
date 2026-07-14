@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+<div class="container-sm mt-5">
+        
+        <h1 class="text-center">--------Query Form-------</h1>
+        <h4 class="text-center text-success mb-3"> {{msg}} </h4>
+        {% if form1 %}
+        <form action='{% url "update" pk=pk %}' method="post" class="p-5">
+          {% csrf_token %}
+          {{form1}}
+          <button type="submit" class='mt-3 text-primary'>UPDATE</button>
+      </form>
+      {% else %}
+    <form action='{% url "query" %}' method="post" class="p-5">
+        {% csrf_token %}
+        {{query}}
+        <button type="submit" class='mt-3 text-primary'>Query</button>
+    </form>
+    {% endif %}
+
+  <!-- table per data show  -->
+    <table class="table table-danger">
+        <thead>
+          <tr>
+            <th scope="col">id</th>
+            <th scope="col">NAME</th>
+            <th scope="col">EMAIL</th>
+            <th scope="col">QUERY</th>
+            <th scope="col">EDIT</th>
+            <th scope="col">DELETE</th>
+          </tr>
+        </thead>
+        {% if data1 %}
+        {% for i in data1 %}
+          <tr>
+            <th scope="row">{{i.id}}</th>           
+            <td>{{i.patient_name}}</td>
+            <td>{{i.patient_email}}</td>
+            <td>{{i.patient_query}}</td>
+            <td>
+              <form action='{% url "edit" pk=i.id %}' method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-warning">EDIT</button>
+            </form>
+            <td>
+              <form action='{% url "delete" pk=i.id %}' method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">DELETE</button>
+              </form>
+              </td>
+          </tr>
+        {% endfor %}
+        {% endif %}
+        
+      </table>
+    
+    </div>  
+
+{% endblock %}

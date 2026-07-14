@@ -27,36 +27,26 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#">Doctors</a>
+          <a class="nav-link" href="{% url 'doctor' %}">Doctors</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#">Services</a>
+          <a class="nav-link" href="{% url 'services' %}">Services</a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="#">Contact</a>
-        </li>
 
       </ul>
-
-      <!-- Search -->
-      <form class="d-flex me-3" role="search">
-        <input class="form-control me-2"
-               type="search"
-               placeholder="Search">
-
-        <button class="btn btn-light" type="submit">
-          Search
-        </button>
-      </form>
 
       <!-- Appointment Button -->
       <a href="#" class="btn btn-warning fw-bold rounded-pill px-4">
         <i class="fa-solid fa-calendar-check me-2"></i>
         Appointment
       </a>
-
+      <br><br>
+      <!-- registration/login button -->
+      <a href="{% url 'Registration' %}" class="btn btn-warning fw-bold rounded-pill px-4">
+      Register/LogIn
+      </a>
     </div>
 
   </div>

@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load static %}
+{% include 'navbar.html' %}
+<div class="container py-3 pz-2">
+         <h1 class="text-center">Highly Qualified Team</h1>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+
+      <div class="col">
+            <div class="card h-100 shadow">
+                <img src="{% static 'images/doctor1.jpg' %}"
+                     class="card-img-top"
+                     style="height:270px; object-fit:cover;"
+                     alt="Angioplasty">
+
+                <div class="card-body">
+                    <h3 class="card-title">Dr. Anthony</h3>
+                    <h4 class="card-title"> Neurologist </h4>
+                    <h6 class="card-text">
+                        "Expert care for your brain, spine, and nerves." 🧠
+                    </h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100 shadow">
+                <img src="{% static 'images/doctor2.jpg' %}"
+                     class="card-img-top"
+                     style="height:270px; object-fit:cover;"
+                     alt="Angioplasty">
+
+                <div class="card-body">
+                    <h3 class="card-title">Dr. Nitish Sarkar</h3>
+                    <h4 class="card-title"> Cardiologist</h4>
+                    <h6 class="card-text">
+                        "Expert care for every heartbeat." ❤️
+                    </h6>
+                </div>
+            </div>
+        </div>
+        
+         <div class="col">
+            <div class="card h-100 shadow">
+                <img src="{% static 'images/doctor3.jpg' %}"
+                     class="card-img-top"
+                     style="height:270px; object-fit:cover;"
+                     alt="Angioplasty">
+
+                <div class="card-body">
+                     <h3 class="card-title">Dr. Abhishek</h3>
+                    <h4 class="card-title">Angioplasty</h4>
+                    <h6 class="card-text">
+                        "Restoring healthy blood flow for a stronger heart." ❤️
+                    </h6>
+                </div>
+            </div>
+        </div>
+         
+         <div class="col">
+            <div class="card h-100 shadow">
+                <img src="{% static 'images/doctor4.jpg' %}"
+                     class="card-img-top"
+                     style="height:270px; object-fit:cover;"
+                     alt="Angioplasty">
+
+                <div class="card-body">
+                   <h3 class="card-title">Dr. Lal Path</h3>
+                    <h4 class="card-title">Endocrinology</h4>
+                    <h6 class="card-text">
+                        "Expert care for hormonal health and balanced living." 🌿
+                    </h6>
+                </div>
+            </div>
+        </div>
+
+        
+
+    </div>
+</div>
+
+{% endblock %}
