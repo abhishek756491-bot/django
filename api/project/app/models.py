@@ -7,4 +7,4 @@ class Student(models.Model):
     age = models.IntegerField()
 
     def __str__(self):
-        return str(self.age)
+        return self.name

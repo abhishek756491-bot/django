@@ -21,5 +21,5 @@ from app.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/students', student_api),
-    path('students/<int:id>/', student_detail)
+    path('api/students/<int:id>/', student_detail)
 ]
