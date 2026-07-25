@@ -3,142 +3,46 @@
 
 {% block content %}
  {% include 'navbar.html' %}
- <div class="container py-3 pz-2">
-         <h1 class="text-center">Our Services</h1>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+ <!-- कंटेनर में क्लास का नाम ठीक किया (pz-2 से px-2) -->
+<div class="container py-5 px-2">
+    
+    <!-- 🌈 बिना एरर वाला शानदार रंग-बिरंगा हेडिंग ब्लॉक -->
+    <div class="text-center mb-5 p-4 rounded-4 shadow-lg text-white" 
+         style="background: linear-gradient(135deg, #7f00ff 0%, #ff007f 50%, #00f2fe 100%); box-shadow: 0 10px 25px rgba(127, 0, 255, 0.3) !important;">
+        
+        <!-- मुख्य हेडिंग (सफेद रंग में बोल्ड और क्लियर, पीछे काली हल्की परछाई) -->
+        <h1 class="fw-black text-uppercase tracking-wider m-0" 
+            style="font-weight: 900; font-size: calc(1.8rem + 1.2vw); text-shadow: 2px 4px 10px rgba(0,0,0,0.3);">
+            ✨ Our Premium Services ✨
+        </h1>
+        
+        <!-- नियॉन येलो ग्लो के साथ छोटी सब-हेडिंग -->
+        <p class="fw-bold mt-2 text-uppercase mb-0" 
+           style="color: #ccff00; letter-spacing: 2px; font-size: 0.95rem; text-shadow: 0 0 10px rgba(204,255,0,0.6);">
+            Advanced Medical Care & Treatment Facilities
+        </p>
+    </div>
+    
+<div class="row row-cols-1 row-cols-md-3 g-4">
 
-        <!-- Card 1 -->
-        <div class="col">
-            <div class="card h-100 shadow">
-                <img src="{% static 'images/angioplasty.jpg' %}"
-                     class="card-img-top"
-                     style="height:200px; object-fit:cover;"
-                     alt="Angioplasty">
+    {% for service in services %}
+    <div class="col">
+        <div class="card h-100 shadow">
+            <img src="{{ service.image.url }}"
+                 class="card-img-top"
+                 style="height:200px; object-fit:cover;"
+                 alt="{{ service.title }}">
 
-                <div class="card-body">
-                    <h5 class="card-title">Angioplasty</h5>
-                    <p class="card-text">
-                        It is long established fact that reader will be distracted.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="col">
-            <div class="card h-100 shadow">
-                <img src="{% static 'images/cadiologist.jpg' %}"
-                     class="card-img-top"
-                     style="height:200px; object-fit:cover;"
-                     alt="Cardiology">
-
-                <div class="card-body">
-                    <h5 class="card-title">Cardiology</h5>
-                    <p class="card-text">
-                        Best heart specialists with advanced treatment.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="col">
-            <div class="card h-100 shadow">
-                <img src="{% static 'images/neaurologist.jpg' %}"
-                     class="card-img-top"
-                     style="height:200px; object-fit:cover;"
-                     alt="Neurology">
-
-                <div class="card-body">
-                    <h5 class="card-title">Neurology</h5>
-                    <p class="card-text">
-                        Expert neurological care for all patients.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="col">
-            <div class="card h-100 shadow">
-                <img src="{% static 'images/x-ray.jpg' %}"
-                     class="card-img-top"
-                     style="height:200px; object-fit:cover;"
-                     alt="X-Ray">
-
-                <div class="card-body">
-                    <h5 class="card-title">X-Ray</h5>
-                    <p class="card-text">
-                        High-quality digital X-Ray facilities available.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card h-100 shadow">
-                <img src="{% static 'images/bmi.jpg' %}"
-                     class="card-img-top"
-                     style="height:200px; object-fit:cover;"
-                     alt="X-Ray">
-
-                <div class="card-body">
-                    <h5 class="card-title">BMI</h5>
-                    <p class="card-text">
-                        High-quality digital X-Ray facilities available.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card h-100 shadow">
-                <img src="{% static 'images/orthopedics.jpg' %}"
-                     class="card-img-top"
-                     style="height:200px; object-fit:cover;"
-                     alt="X-Ray">
-
-                <div class="card-body">
-                    <h5 class="card-title">Orthopedics</h5>
-                    <p class="card-text">
-                        High-quality digital X-Ray facilities available.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card h-100 shadow">
-                <img src="{% static 'images/indocrinology.jpg' %}"
-                     class="card-img-top"
-                     style="height:200px; object-fit:cover;"
-                     alt="X-Ray">
-
-                <div class="card-body">
-                    <h5 class="card-title">Endocrinology</h5>
-                    <p class="card-text">
-                        High-quality digital X-Ray facilities available.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card h-100 shadow">
-                <img src="{% static 'images/Eye.jpg' %}"
-                     class="card-img-top"
-                     style="height:200px; object-fit:cover;"
-                     alt="X-Ray">
-
-                <div class="card-body">
-                    <h5 class="card-title">Eye care</h5>
-                    <p class="card-text">
-                        High-quality digital X-Ray facilities available.
-                    </p>
-                </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ service.title }}</h5>
+                <p class="card-text">
+                    {{ service.description }}
+                </p>
             </div>
         </div>
     </div>
+    {% endfor %}
+
 </div>
 
 

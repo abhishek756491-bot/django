@@ -4,60 +4,73 @@
 {% block content %}
 {% load static %}
 {% include 'navbar.html' %}
-<div class="container p3-5">
 
-    <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+<div class="container mt-5 mb-5">
+
+
+    <div class="card border-0 shadow-lg rounded-4 overflow-hidden text-white" 
+         style="background: linear-gradient(135deg, #1e0044 0%, #7f00ff 50%, #ff007f 100%); 
+         box-shadow: 0 15px 35px rgba(127, 0, 255, 0.3) !important; border: 2px solid #00f2fe !important;">
         <div class="row g-0 align-items-center">
 
-            <!-- Left Image -->
-            <div class="col-lg-5">
+            <!-- लेफ्ट साइड: डॉक्टर की इमेज (शानदार ग्लास-कट और ग्लोइंग बॉर्डर इफेक्ट के साथ) -->
+            <div class="col-lg-5 text-center position-relative h-100 bg-black bg-opacity-25">
                 <img src="{% static 'images/dphoto1.png' %}"
-                     class="img-fluid w-100 h-100"
-                     style="object-fit: cover; min-height:450px;"
+                     class="img-fluid w-100 h-100 facility-vibrant-img"
+                     style="object-fit: cover; min-height:480px;"
                      alt="Doctor">
             </div>
 
-            <!-- Right Content -->
+            <!-- राइट साइड: रंग-बिरंगा और चमकदार कंटेंट -->
             <div class="col-lg-7">
-                <div class="card-body p-5">
+                <div class="card-body p-4 p-sm-5">
 
-                    <span class="badge bg-primary mb-3 fs-6">
-                        Healthcare Services
+                    <!-- चमकीला नियॉन ग्रीन बैज (Pulse एनीमेशन के साथ) -->
+                    <span class="badge fw-bold px-3 py-2 rounded-pill mb-3 text-dark facility-pulse-badge" 
+                          style="background: #ccff00; font-size: 0.85rem; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(204, 255, 0, 0.4);">
+                        ✨ HEALTHCARE SERVICES
                     </span>
 
-                    <h2 class="fw-bold mb-4">
-                        World Class Patient Facilities Designed For You
+                    <!-- मुख्य हेडिंग (चमकदार सायन कलर और बोल्ड टेक्स्ट शैडो के साथ बहुत बड़ा लुक) -->
+                    <h2 class="fw-black mb-4" style="font-weight: 900; font-size: calc(1.6rem + 1vw); line-height: 1.2; text-shadow: 2px 4px 10px rgba(0,0,0,0.4);">
+                        World Class Patient <span style="color: #00f2fe; text-shadow: 0 0 10px rgba(0,242,254,0.5);">Facilities</span> Designed For You
                     </h2>
 
-                    <p class="text-muted fs-5">
+                    <!-- वाइब्रेंट डिस्क्रिप्शन (हल्की ओपेसिटी के साथ सफेद रंग में साफ दिखेगा) -->
+                    <p class="fs-5 mb-4 fw-medium" style="color: rgba(255, 255, 255, 0.9); text-shadow: 1px 1px 4px rgba(0,0,0,0.2); line-height: 1.6;">
                         We provide advanced healthcare facilities with experienced doctors,
                         modern equipment, and compassionate care to ensure every patient
                         receives the best treatment in a safe and comfortable environment.
                     </p>
 
-                    <!-- About Button -->
-                    <a href="#" class="btn btn-primary btn-lg rounded-pill px-4 mt-3">
-                        About Us →
+                    <!-- अबाउट बटन: माउस ले जाने पर नियॉन येलो में चमकने वाला -->
+                    <a href="#" class="btn btn-lg fw-bold rounded-pill px-4 mt-2 text-dark facility-glow-btn" 
+                       style="background: #00f2fe; border: none; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0, 242, 254, 0.5);">
+                        About Us <i class="fas fa-arrow-right ms-1"></i>
                     </a>
 
-                    <hr class="my-4">
+                    <!-- रंगीन सेपरेटर लाइन -->
+                    <hr class="my-4" style="background-color: #00f2fe; height: 2px; opacity: 0.3;">
 
-                    <!-- Contact -->
-                    <div class="d-flex align-items-center">
+                    <!-- हेल्पलाइन कांटेक्ट ब्लॉक -->
+                    <div class="d-flex align-items-center bg-black bg-opacity-25 p-3 rounded-4" style="border-left: 4px solid #ccff00;">
 
-                        <div class="bg-primary rounded-circle d-flex justify-content-center align-items-center"
-                             style="width:60px;height:60px;">
-                            <i class="fa-solid fa-phone text-white fs-4"></i>
+                        <!-- आइकॉन बॉक्स: नियॉन येलो बैकग्राउंड -->
+                        <div class="rounded-circle d-flex justify-content-center align-items-center shadow"
+                             style="width:55px; height:55px; background: #ccff00; min-width: 55px; box-shadow: 0 0 15px rgba(204, 255, 0, 0.4) !important;">
+                            <i class="fa-solid fa-phone text-dark fs-4 animate-bounce"></i>
                         </div>
 
+                        <!-- हेल्पलाइन टेक्स्ट और नंबर -->
                         <div class="ms-3">
-                            <small class="text-secondary">
+                            <small class="fw-bold text-uppercase" style="color: rgba(255,255,255,0.7); letter-spacing: 0.5px; font-size: 0.8rem;">
                                 24×7 Emergency Helpline
                             </small>
 
-                            <h4 class="fw-bold text-primary mb-0">
+                            <!-- चमकीला नियॉन सायन फोन नंबर -->
+                            <h3 class="fw-black mb-0 mt-1" style="font-weight: 800; color: #ccff00; text-shadow: 0 0 8px rgba(204,255,0,0.3); font-size: calc(1.2rem + 0.5vw);">
                                 +91 75649 17781
-                            </h4>
+                            </h3>
                         </div>
 
                     </div>
@@ -69,4 +82,6 @@
     </div>
 
 </div>
+
+
 {% endblock %}

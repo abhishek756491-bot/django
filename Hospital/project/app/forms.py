@@ -9,7 +9,7 @@ class RegistrationForm(forms.ModelForm):
         label="Confirm Password"
     )
     class Meta:
-        model = PatientModel
+        model = Registration
         fields = ('patient_name', 'patient_email', 'patient_city', 'patient_mobile', 'patient_password')
         widgets = {
             'patient_name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -21,7 +21,7 @@ class RegistrationForm(forms.ModelForm):
 
 class LoginForm(forms.ModelForm):
     class Meta:
-        model = PatientModel
+        model = Registration
         fields = ('patient_email', 'patient_password')
         widgets = {
             'patient_email': forms.EmailInput(attrs={'class': 'form-control'}),

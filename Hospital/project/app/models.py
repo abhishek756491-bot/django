@@ -15,6 +15,7 @@ class Doctor(models.Model):
     specialization = models.CharField(max_length=120, blank=True)
     phone = models.CharField(max_length=20)
     email = models.EmailField(blank=True)
+    image = models.ImageField(upload_to="doctors/",null=True)
 
     def __str__(self):
         return self.name
@@ -63,7 +64,7 @@ class Appointment(models.Model):
 
 # crud
 
-class PatientModel(models.Model):
+class Registration(models.Model):
     patient_name = models.CharField(max_length=50)
     patient_email = models.EmailField()
     patient_city = models.CharField(max_length=50)
@@ -75,3 +76,15 @@ class PatientQuery(models.Model):
     patient_name = models.CharField(max_length=50)
     patient_email = models.EmailField()
     patient_query = models.TextField()
+
+
+# services 
+
+
+class Service(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    image = models.ImageField(upload_to="services/")
+
+    def __str__(self):
+        return self.title

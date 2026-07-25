@@ -1,60 +1,70 @@
 {% extends 'base.html' %}
 {% block content %}
-<nav class="navbar navbar-expand-lg bg-primary navbar-dark">
+
+
+<nav class="navbar navbar-expand-lg navbar-dark shadow-lg sticky-top border-bottom border-info border-opacity-25" 
+     style="background: linear-gradient(90deg, #1e0044 0%, #7f00ff 50%, #ff007f 100%);">
   <div class="container">
 
-    <a class="navbar-brand fw-bold fs-3" href="#">
-      🏥 Hospital
+
+    <a class="navbar-brand fw-black fs-2 vibrant-logo" href="#" style="font-weight: 900; letter-spacing: 0.5px; text-shadow: 0 0 10px #00f2fe;">
+      🏥 <span style="color: #00f2fe;">Hosp</span><span style="color: #ccff00;">ital</span>
     </a>
 
-    <button class="navbar-toggler" type="button"
+    <button class="navbar-toggler border-0" type="button"
             data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent">
+            data-bs-target="#navbarSupportedContent" style="outline: none;">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-      <!-- Left Menu -->
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-        <li class="nav-item">
-          <a class="nav-link active" href="{% url 'home' %}">Home</a>
+     
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+        
+        <li class="nav-item me-2">
+          <a class="nav-link fw-bold text-uppercase nav-vibrant-link" 
+             href="{% url 'home' %}" style="letter-spacing: 0.5px;">Home</a>
         </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'about' %}">About</a>
+        
+        <li class="nav-item me-2">
+          <a class="nav-link fw-bold text-uppercase nav-vibrant-link" 
+             href="{% url 'about' %}" style="letter-spacing: 0.5px;">About</a>
         </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'doctor' %}">Doctors</a>
+        
+        <li class="nav-item me-2">
+          <a class="nav-link fw-bold text-uppercase nav-vibrant-link" 
+             href="{% url 'doctor' %}" style="letter-spacing: 0.5px;">Doctors</a>
         </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'services' %}">Services</a>
+        
+        <li class="nav-item me-2">
+          <a class="nav-link fw-bold text-uppercase nav-vibrant-link" 
+             href="{% url 'services' %}" style="letter-spacing: 0.5px;">Services</a>
         </li>
-
-
+        
       </ul>
 
-      <!-- Appointment Button -->
-      <a href="#" class="btn btn-warning fw-bold rounded-pill px-4">
-        <i class="fa-solid fa-calendar-check me-2"></i>
-        Appointment
-      </a>
-      <br><br>
-      
-      <!-- registration/login button -->
-      <a href="{% url 'registration' %}" class="btn btn-warning fw-bold rounded-pill px-4">
-      Register/LogIn
+     
+      <div class="d-flex flex-column flex-lg-row gap-2 mt-3 mt-lg-0 align-items-stretch align-items-lg-center">
+        
+        <a href="#" class="btn fw-bold rounded-pill px-4 py-2 navbar-btn-cyan text-dark" style="background: #00f2fe; border: none; font-size: 0.95rem; box-shadow: 0 0 15px rgba(0, 242, 254, 0.4); transition: 0.3s;">
+          <i class="fa-solid fa-calendar-check me-2"></i> Appointment
+        </a>
+        
+        <a href="{% url 'registration' %}" class="btn fw-bold rounded-pill px-4 py-2 navbar-btn-yellow text-dark" style="background: #ccff00; border: none; font-size: 0.95rem; box-shadow: 0 0 15px rgba(204, 255, 0, 0.4); transition: 0.3s;">
+          <i class="fa-solid fa-user-plus me-2"></i> Register/LogIn
+        </a>
 
-      </a>
-       <a href="{% url 'query' %}" class="btn btn-warning fw-bold rounded-pill px-4">
-      Query
-      </a>
+        <a href="{% url 'query' %}" class="btn fw-bold rounded-pill px-4 py-2 navbar-btn-outline" style="border: 2px solid #ff007f; color: white; font-size: 0.95rem; background: rgba(255, 0, 127, 0.1); transition: 0.3s;">
+          <i class="fa-solid fa-question-circle me-2"></i> Query
+        </a>
+
+      </div>
+
     </div>
 
   </div>
 </nav>
 
-{% endblock%}
+
+{% endblock %}

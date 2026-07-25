@@ -5,23 +5,58 @@
 
 {% include 'navbar.html' %}
 
-
-<div class="card mb-3" style="width:100vw; height: 100vw;">
-  <div class="row g-0">
+<!-- पूरे बैनर का कंटेनर - चमकदार नियॉन पिंक, पर्पल और सायन ग्रेडिएंट बैकग्राउंड -->
+<div class="card mb-5 border-0 shadow-lg overflow-hidden rounded-4 mt-4 text-white" 
+     style="background: linear-gradient(135deg, #ff007f 0%, #7f00ff 50%, #00f2fe 100%); box-shadow: 0 15px 35px rgba(127, 0, 255, 0.3) !important;">
+  <div class="row g-0 align-items-center">
     
-    <div class="col-md-8 p-5 pt-5 w-40">
-      <div class="card-body ">
-        <h5 class="card-title fs-2">Medical and Heath care services</h5>
-        <p class="card-text">Your health is our top priority. Schedule an appointment with us today</p>
-        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-        <a class="btn btn-primary" href="#" role="button">Book &rarr;</a>
+    <!-- लेफ्ट साइड: रंग-बिरंगा टेक्स्ट और ग्लोइंग बटन -->
+    <div class="col-md-7 col-lg-6 p-4 p-sm-5 text-center text-md-start">
+      <div class="card-body p-0">
+        
+        <!-- चमकीला नियॉन ग्रीन/येलो बैज -->
+        <span class="badge fw-bold px-3 py-2 rounded-pill mb-3 text-dark animate-pulse" 
+              style="background: #ccff00; font-size: 0.9rem; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(204, 255, 0, 0.4);">
+          🔥 LIVE HEALTHCARE HEROES
+        </span>
+
+        <!-- मुख्य हेडिंग (चमकदार टेक्स्ट शैडो के साथ बहुत बड़ा और बोल्ड) -->
+        <h1 class="card-title fw-black mb-3" 
+            style="font-weight: 900; font-size: calc(2rem + 1.2vw); line-height: 1.1; text-shadow: 2px 4px 10px rgba(0,0,0,0.3);">
+          Medical & <span style="color: #ccff00; text-shadow: 0 0 10px rgba(204,255,0,0.5);">Healthcare</span> Services
+        </h1>
+
+        <!-- वाइब्रेंट डिस्क्रिप्शन (सफेद रंग में साफ दिखेगा) -->
+        <p class="card-text mb-4 lead fw-medium" style="font-size: 1.15rem; color: rgba(255, 255, 255, 0.9); text-shadow: 1px 1px 4px rgba(0,0,0,0.2);">
+          Your health is our top priority. Schedule an appointment with us today and consult with our expert doctors.
+        </p>
+
+        <!-- एक्शन बटन (नियॉन सायन ग्लोइंग इफेक्ट और माउस ले जाने पर चमकने वाला) -->
+        <div class="d-grid d-md-block gap-2">
+          <a class="btn btn-lg fw-bold px-4 py-3 rounded-3 dynamic-glow-btn text-dark" 
+             href="#" role="button" 
+             style="background: #00f2fe; border: none; font-size: 1.1rem; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0, 242, 254, 0.6);">
+            Book Appointment <i class="fas fa-rocket ms-2"></i>
+          </a>
+        </div>
+
+        <!-- अपडेट टाइम (नीचे सफेद रंग में हल्का ओपेसिटी के साथ) -->
+        <p class="card-text mt-4 mb-0">
+          <small class="fw-bold" style="color: rgba(255, 255, 255, 0.75);">
+            <i class="far fa-clock me-1"></i> Last updated 3 mins ago
+          </small>
+        </p>
+
       </div>
     </div>
-    <div class="col-md-4 w-45 ">
-      <img src="{% static 'images/dphoto1.png' %}" class="img-fluid rounded-start" alt="dphoto1">
+
+    <!-- राइट साइड: डॉक्टर या हॉस्पिटल की इमेज (ग्लास कट और बॉर्डर ग्लो के साथ) -->
+    <div class="col-md-5 col-lg-6 text-center position-relative h-100 bg-black bg-opacity-10">
+      <img src="{% static 'images/dphoto1.png' %}" class="img-fluid vibrant-img" alt="dphoto1" 
+           style="max-height: 480px; width: 100%; object-fit: cover;">
     </div>
+
   </div>
 </div>
 
- 
 {% endblock %}

@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from app.forms import RegistrationForm,LoginForm,QueryForm
-from app.models import PatientModel,PatientQuery
+from app.models import *
+from app.models import Doctor as Doctormodel
 # Create your views here.
 
 def base(request):
@@ -14,13 +15,15 @@ def about(request):
     return render(request,'about.html')
 
 def doctor(request):
-    return render(request,'doctor.html')
+    doctors= Doctormodel.objects.all()
+    return render(request, "doctor.html", {"doctors": doctors})
 
 
 def services(request):
-    return render(request,'services.html')
+    services = Service.objects.all()
+    return render(request, "services.html", {"services": services})
 
-def Registration(request):
+def Registrationview(request):
     form=RegistrationForm()
     if request.method=="POST":      
         form=RegistrationForm(request.POST)
@@ -32,7 +35,7 @@ def Registration(request):
             patient_mobile=form.cleaned_data["patient_mobile"]
             patient_password=form.cleaned_data["patient_password"]
             print(patient_name,patient_email,patient_city,patient_mobile)
-            user = PatientModel.objects.filter(patient_email=patient_email)
+            user = Registration.objects.filter(patient_email=patient_email)
             if user:
                 msg = "Email already exist"
                 form = RegistrationForm()
@@ -42,9 +45,9 @@ def Registration(request):
                 msg="Registration succesfull"
                 form=RegistrationForm()
                 return render(request,"Registration.html",{"form":form,"msg":msg})
-            
-    else:
-        return render(request,'Registration.html',{"form":form})
+        else:
+            return render(request,'Registration.html',{"form":form})
+    return render(request,'Registration.html',{"form":form})
 
 #---- login -----------
 def login(request):
@@ -54,10 +57,10 @@ def login(request):
         if data.is_valid():
             email = data.cleaned_data["patient_email"]
             password = data.cleaned_data["patient_password"]
-            user = PatientModel.objects.filter(patient_email=email)
+            user = Registration.objects.filter(patient_email=email)
 
             if user:
-                user = PatientModel.objects.get(patient_email=email)
+                user = Registration.objects.get(patient_email=email)
                 if user.patient_password == password:
                     name = user.patient_name
                     email = user.patient_email
@@ -99,7 +102,7 @@ def query(request):
             query = query_data.cleaned_data['patient_query']
             # print(email,name,query)
             query_data.save()
-            user = PatientModel.objects.get(patient_email=email)
+            user = Registration.objects.get(patient_email=email)
             if user:
                 name = user.patient_name
                 email = user.patient_email
@@ -138,7 +141,7 @@ def edit(request,pk):
                     } 
         form1=QueryForm(initial=initial_data)
         data1 = PatientQuery.objects.filter(patient_email=email)
-        user1 = PatientModel.objects.get(patient_email=email)
+        user1 = Registration.objects.get(patient_email=email)
         name = user1.patient_name
         email = user1.patient_email
         contact = user1.patient_mobile
@@ -167,7 +170,7 @@ def update(request,pk):
             query = query_data.cleaned_data['patient_query']
             # print(email,name,query)
             query_data.save()
-            user = PatientModel.objects.get(patient_email=email)
+            user = Registration.objects.get(patient_email=email)
             if user:
                 name = user.patient_name
                 email = user.patient_email
@@ -202,7 +205,7 @@ def delete(request,pk):
         }
         form1 = QueryForm(initial=initial_data)
         data1 = PatientQuery.objects.filter(patient_email=email)
-        user1 = PatientModel.objects.get(patient_email=email)
+        user1 = Registration.objects.get(patient_email=email)
         name = user1.patient_name
         email = user1.patient_email
         contact = user1.patient_mobile
