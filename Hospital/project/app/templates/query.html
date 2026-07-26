@@ -5,60 +5,129 @@
 
 {% include 'navbar.html' %}
 
-<div class="container-sm mt-5">
-        
-        <h1 class="text-center">--------Query Form-------</h1>
-        <h4 class="text-center text-success mb-3"> {{msg}} </h4>
-        {% if form1 %}
-        <form action='{% url "update" pk=pk %}' method="post" class="p-5">
-          {% csrf_token %}
-          {{form1}}
-          <button type="submit" class='mt-3 text-primary'>UPDATE</button>
-      </form>
-      {% else %}
-    <form action='{% url "query" %}' method="post" class="p-5">
-        {% csrf_token %}
-        {{query}}
-        <button type="submit" class='mt-3 text-primary'>Query</button>
-    </form>
-    {% endif %}
-
-  <!-- table per data show  -->
-    <table class="table table-danger">
-        <thead>
-          <tr>
-            <th scope="col">id</th>
-            <th scope="col">NAME</th>
-            <th scope="col">EMAIL</th>
-            <th scope="col">QUERY</th>
-            <th scope="col">EDIT</th>
-            <th scope="col">DELETE</th>
-          </tr>
-        </thead>
-        {% if data1 %}
-        {% for i in data1 %}
-          <tr>
-            <th scope="row">{{i.id}}</th>           
-            <td>{{i.patient_name}}</td>
-            <td>{{i.patient_email}}</td>
-            <td>{{i.patient_query}}</td>
-            <td>
-              <form action='{% url "edit" pk=i.id %}' method="post">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-warning">EDIT</button>
-            </form>
-            <td>
-              <form action='{% url "delete" pk=i.id %}' method="post">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger">DELETE</button>
-              </form>
-              </td>
-          </tr>
-        {% endfor %}
-        {% endif %}
-        
-      </table>
+<div class="container mt-5" style="max-width: 900px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
     
-    </div>  
+    <!-- मुख्य हेडिंग -->
+    <div class="text-center mb-4">
+        <h1 class="fw-bold text-dark position-relative d-inline-block pb-2" style="border-bottom: 3px solid #0d6efd;">
+            Query Form
+        </h1>
+        {% if msg %}
+            <div class="alert alert-success mt-3 shadow-sm" role="alert">
+                {{ msg }}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- फॉर्म सेक्शन (कार्ड लेआउट) -->
+    <div class="card shadow-sm border-0 mb-5 bg-light">
+        <div class="card-body p-4 p-md-5">
+            {% if form1 %}
+                <form action='{% url "update" pk=pk %}' method="post">
+                    {% csrf_token %}
+                    <div class="django-form-controls mb-4">
+                        {{ form1 }}
+                    </div>
+                    <button type="submit" class="btn btn-primary px-4 py-2 fw-semibold shadow-sm w-100">
+                        <i class="bi bi-check-circle"></i> UPDATE
+                    </button>
+                </form>
+            {% else %}
+                <form action='{% url "query" %}' method="post">
+                    {% csrf_token %}
+                    <div class="django-form-controls mb-4">
+                        {{ query }}
+                    </div>
+                    <button type="submit" class="btn btn-success px-4 py-2 fw-semibold shadow-sm w-100">
+                        <i class="bi bi-plus-circle"></i> Submit Query
+                    </button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- डेटा टेबल सेक्शन -->
+    <div class="card shadow-sm border-0 overflow-hidden">
+        <div class="card-header bg-dark text-white py-3">
+            <h5 class="mb-0 fw-semibold"><i class="bi bi-table"></i> Submitted Queries</h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light text-uppercase fs-7 fw-bold text-muted">
+                    <tr>
+                        <th scope="col" class="ps-4">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Query</th>
+                        <th scope="col" class="text-center">Edit</th>
+                        <th scope="col" class="text-center pe-4">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if data1 %}
+                        {% for i in data1 %}
+                            <tr>
+                                <th scope="row" class="ps-4 fw-bold text-secondary">{{ i.id }}</th>
+                                <td class="fw-semibold text-dark">{{ i.patient_name }}</td>
+                                <td class="text-muted">{{ i.patient_email }}</td>
+                                <td class="text-wrap" style="max-width: 250px;">{{ i.patient_query }}</td>
+                                <td class="text-center">
+                                    <form action='{% url "edit" pk=i.id %}' method="post" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-outline-warning px-3 rounded-pill fw-medium">
+                                            Edit
+                                        </button>
+                                    </form>
+                                </td>
+                                <td class="text-center pe-4">
+                                    <form action='{% url "delete" pk=i.id %}' method="post" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-outline-danger px-3 rounded-pill fw-medium">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted py-4">No data available</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Django Forms के इनपुट फील्ड्स को सुंदर बनाने के लिए अतिरिक्त CSS -->
+<style>
+    /* Django द्वारा जनरेटेड inputs को Bootstrap लुक देना */
+    .django-form-controls input, 
+    .django-form-controls textarea, 
+    .django-form-controls select {
+        width: 100%;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        border: 1px solid #ced4da;
+        border-radius: 0.375rem;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        margin-bottom: 15px;
+    }
+    .django-form-controls input:focus, 
+    .django-form-controls textarea:focus {
+        color: #212529;
+        background-color: #fff;
+        border-color: #86b7fe;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+    .fs-7 { font-size: 0.85rem; }
+</style>
+
 
 {% endblock %}

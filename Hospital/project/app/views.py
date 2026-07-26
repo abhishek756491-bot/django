@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from app.forms import RegistrationForm,LoginForm,QueryForm
 from app.models import *
 from app.models import Doctor as Doctormodel
+
+
 # Create your views here.
 
 def base(request):
@@ -90,40 +92,48 @@ def login(request):
     else:
         return render(request,'login.html',{'form':form})
 
+from django.shortcuts import render
+from .models import Registration, PatientQuery
+
 def query(request):
-    # return HttpResponse("hi.............")
     form = QueryForm()
-    if request.method=="POST":
-        query_data = QueryForm(request.POST) 
-        # print(query_data)
+
+    if request.method == "POST":
+        query_data = QueryForm(request.POST)
+
         if query_data.is_valid():
-            name =  query_data.cleaned_data['patient_name']
+            name = query_data.cleaned_data['patient_name']
             email = query_data.cleaned_data['patient_email']
             query = query_data.cleaned_data['patient_query']
-            # print(email,name,query)
-            query_data.save()
-            user = Registration.objects.get(patient_email=email)
-            if user:
-                name = user.patient_name
-                email = user.patient_email
-                contact = user.patient_mobile
-                city = user.patient_city
-                password = user.patient_password
-                data = {
-                    'name':name,
-                    'email':email,
-                    'contact':contact,
-                    'city':city,
-                    'password':password
-                }
-                initial_data = {
-                                'patient_name': name,
-                                'patient_email': email
-                            } 
-                form1=QueryForm(initial=initial_data)
-                data1=PatientQuery.objects.filter(patient_email=email) #TABLE PER DATA SHOW KARNE KE LIYE              
-                return render(request,'query.html',{'data':data,'query':form1,'data1':data1})
 
+            query_data.save()
+
+            user = Registration.objects.filter(patient_email=email).first()
+
+            if user:
+                data = {
+                    'name': user.patient_name,
+                    'email': user.patient_email,
+                    'contact': user.patient_mobile,
+                    'city': user.patient_city,
+                    'password': user.patient_password
+                }
+
+                initial_data = {
+                    'patient_name': user.patient_name,
+                    'patient_email': user.patient_email
+                }
+
+                form1 = QueryForm(initial=initial_data)
+                data1 = PatientQuery.objects.filter(patient_email=email)
+
+                return render(request, 'query.html', {
+                    'data': data,
+                    'query': form1,
+                    'data1': data1
+                })
+
+    return render(request, 'query.html', {'query': form})
 def edit(request,pk):
     print(pk)
     form=QueryForm()
@@ -221,4 +231,11 @@ def delete(request,pk):
             'password' : password
         }
         return render(request,'query.html',{'data':data,'query':form1,'data1':data1})
+
+
+
+
+
+
+
 
