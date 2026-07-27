@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from app.forms import RegistrationForm,LoginForm,QueryForm
+from app.forms import RegistrationForm,LoginForm,QueryForm,AppointmentBookingForm
 from app.models import *
 from app.models import Doctor as Doctormodel
 
@@ -234,8 +234,47 @@ def delete(request,pk):
 
 
 
+def appointment(request):
+
+    if request.method == "POST":
+
+        form = AppointmentBookingForm(request.POST)
+
+        if form.is_valid():
+
+            patient = Patient.objects.create(
+                name=form.cleaned_data["name"],
+                age=form.cleaned_data["age"],
+                gender=form.cleaned_data["gender"],
+                phone=form.cleaned_data["phone"],
+                address=form.cleaned_data["address"],
+                symptoms=form.cleaned_data["symptoms"],
+            )
+
+            Appointment.objects.create(
+                patient=patient,
+                doctor=form.cleaned_data["doctor"],
+                date=form.cleaned_data["date"],
+                time=form.cleaned_data["time"],
+                reason=form.cleaned_data["reason"],
+            )
+
+            return render(request, "appointment.html", {
+                "form": AppointmentBookingForm(),
+                "msg": "Appointment Booked Successfully."
+            })
+
+    else:
+        form = AppointmentBookingForm()
+
+    return render(request, "appointment.html", {
+        "form": form
+    })
 
 
+ #payment
 
+def payment(request):
+    return render(request,'payment.html')
 
 

@@ -5,7 +5,6 @@ from app.models import *
 admin.site.register(Department)
 admin.site.register(Doctor)
 admin.site.register(Patient)
-admin.site.register(Appointment)
 admin.site.register(Registration)
 admin.site.register(PatientQuery)
 admin.site.register(Service)
