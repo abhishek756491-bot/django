@@ -119,3 +119,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+#payment key
+RAZORPAY_KEY_ID = 'rzp_test_TIpFBgNUI5wBKl'
+RAZORPAY_KEY_SECRET = 'GHfWA1nOZ8d8I31bO2SZ47GN'
