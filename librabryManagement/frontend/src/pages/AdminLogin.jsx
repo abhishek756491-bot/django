@@ -1,23 +1,25 @@
-import {useState} from "react"
+import { useState } from "react"
 import axios from "axios"
-import {toast} from "react-toastify"
+import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 
 const AdminLogin = () => {
-  const [username,setUserName] = useState("");
-  const [password,setPassword] = useState("");
+  const [username, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
 
   const handlesubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true)
     try {
       const res = await axios.post("http://127.0.0.1:8000/api/admin/login/",
-        {username,password}
+        { username, password }
       );
       if (res.data.success) {
         toast.success(res.data.message || "Login successfully")
-        localStorage.setItem("adminUser",res.data.username);
+        localStorage.setItem("adminUser", res.data.username);
         navigate("/admin/dashboard");
       }
       else {
@@ -25,18 +27,20 @@ const AdminLogin = () => {
       }
     }
 
-    catch(err){
+    catch (err) {
       console.log(err);
 
-      if (err.response?.data?.messege) {
-        toast.error(err.response.data.messege);
+      if (err.response?.data?.message) {
+        toast.error(err.response.data.message);
       } else {
         toast.error("Something went wrong");
       }
-    
+    }
+    finally {
+      setLoading(false)
     }
   }
-    return (
+  return (
     <div
       className="py-5"
       style={{
@@ -81,12 +85,12 @@ const AdminLogin = () => {
                         placeholder="Enter admin user"
                         required
                         value={username}
-                        onChange={(e)=> setUserName(e.target.value)}
+                        onChange={(e) => setUserName(e.target.value)}
                       />
                     </div>
                   </div>
 
-                  
+
                   <div className="mb-3">
                     <label className="form-label small fw-medium">
                       Password
@@ -103,16 +107,17 @@ const AdminLogin = () => {
                         placeholder="***********"
                         required
                         value={password}
-                        onChange={(e)=> setPassword(e.target.value)}
+                        onChange={(e) => setPassword(e.target.value)}
                       />
                     </div>
                   </div>
-                  <button
-                    type="submit"
-                    className="btn btn-primary w-100"
-                  >
-                    <i className="fa-solid fa-right-to-bracket me-2"></i>
-                    Admin Login
+                  <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+                    {loading ? (
+                      <>
+                        <span className="spinner-border spinner-border-sm me-2"></span>
+                        Signing In...</>) : (<>
+                          <i className="fa-solid fa-right-to-bracket me-2"></i>
+                        Sign in</>)}
                   </button>
 
                 </form>
