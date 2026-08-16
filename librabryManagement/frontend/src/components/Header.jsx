@@ -30,11 +30,11 @@ const Header = () => {
                             <Link className={`nav-link ${isActive("/user/login")}`} to="/user/login">
                                 <i className='fa-solid fa-user me-1'></i>User Login</Link>
                         </li>
-                        <li class="nav-item">
+                        <li className="nav-item">
                             <Link className={`nav-link ${isActive("/user/signup")}`} to="/user/signup">
                                 <i className='fa-solid fa-user-plus me-1'></i>User Signup</Link>
                         </li>
-                        <li class="nav-item">
+                        <li className="nav-item">
                             <Link class="btn btn-primary" to="/admin/login">
                                 <i className='fa-solid fa-user-shield me-1'></i>Admin Login</Link>
                         </li>

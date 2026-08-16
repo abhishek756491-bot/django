@@ -38,21 +38,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'libraryapp',
-    'rest_framework'
+    'rest_framework',
     'corsheaders' # cross origin resource sharing
+    
 
 ]
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173/"
+    "http://localhost:5173"
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173/"
+    "http://localhost:5173"
 ]
 
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware'
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

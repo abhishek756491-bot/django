@@ -1,9 +1,128 @@
-import React from 'react'
+import {useState} from "react"
+import axios from "axios"
+import {toast} from "react-toastify"
+import { useNavigate } from "react-router-dom"
 
 const AdminLogin = () => {
-  return (
-    <div>
-      
+  const [username,setUserName] = useState("");
+  const [password,setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handlesubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await axios.post("http://127.0.0.1:8000/api/admin/login/",
+        {username,password}
+      );
+      if (res.data.success) {
+        toast.success(res.data.message || "Login successfully")
+        localStorage.setItem("adminUser",res.data.username);
+        navigate("/admin/dashboard");
+      }
+      else {
+        toast.error(res.data.message || "Invalid Cridiantials")
+      }
+    }
+
+    catch(err){
+      console.log(err);
+
+      if (err.response?.data?.messege) {
+        toast.error(err.response.data.messege);
+      } else {
+        toast.error("Something went wrong");
+      }
+    
+    }
+  }
+    return (
+    <div
+      className="py-5"
+      style={{
+        background: "linear-gradient(135deg,#f3f4ff,#fdfbff)",
+        minHeight: "100vh"
+      }}
+    >
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="col-md-5">
+
+            <div className="mb-4 text-center">
+              <h3 className="fw-semibold mb-1">
+                <i className="fa-solid fa-shield-halved text-primary"></i>
+                Admin Sign In
+              </h3>
+
+              <p className="text-muted small">
+                Use the admin account created via{" "}
+                <code>createsuperuser</code>
+              </p>
+            </div>
+
+            <div className="card border-0 shadow-sm rounded-4">
+              <div className="card-body p-4">
+
+                <form onSubmit={handlesubmit}>
+
+                  <div className="mb-3">
+                    <label className="form-label small fw-medium">
+                      UserName
+                    </label>
+
+                    <div className="input-group">
+                      <span className="input-group-text bg-transparent">
+                        <i className="fa-regular fa-user"></i>
+                      </span>
+
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Enter admin user"
+                        required
+                        value={username}
+                        onChange={(e)=> setUserName(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  
+                  <div className="mb-3">
+                    <label className="form-label small fw-medium">
+                      Password
+                    </label>
+
+                    <div className="input-group">
+                      <span className="input-group-text bg-transparent">
+                        <i className="fa-solid fa-key"></i>
+                      </span>
+
+                      <input
+                        type="password"
+                        className="form-control"
+                        placeholder="***********"
+                        required
+                        value={password}
+                        onChange={(e)=> setPassword(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <button
+                    type="submit"
+                    className="btn btn-primary w-100"
+                  >
+                    <i className="fa-solid fa-right-to-bracket me-2"></i>
+                    Admin Login
+                  </button>
+
+                </form>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
