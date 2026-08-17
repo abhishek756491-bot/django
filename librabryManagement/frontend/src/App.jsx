@@ -4,6 +4,8 @@ import { Route, Routes } from 'react-router-dom'
 import AdminLogin from './pages/AdminLogin'
 import { ToastContainer } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
+import AdminDashboard from './pages/AdminDashboard'
+import AddCategory from './components/AddCategory'
 
 const App = () => {
   return (
@@ -13,6 +15,8 @@ const App = () => {
 
       <Routes>
         <Route  path='/admin/login' element={<AdminLogin/>}></Route>
+        <Route  path='/admin/dashboard' element={<AdminDashboard/>}></Route>
+        <Route  path='/admin/category_add' element={<AddCategory/>}></Route>
       </Routes>
     </div>
   )

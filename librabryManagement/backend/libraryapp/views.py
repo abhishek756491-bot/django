@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import *
+from .serializers import *
 
 @api_view(["POST"])
 def admin_login_api(request):
@@ -25,4 +26,23 @@ def admin_login_api(request):
             "messege" : "Invalid credentials",
         },
         status = 401
+    )
+
+
+@api_view(["POST"])
+def add_category(request):
+    name = request.data.get("name")
+    status = request.data.get("status","1")
+
+    True if str(status) == "1" else False
+    category =Category.objects.create(name=name,is_active=is_active)
+    serializer = CategorySerializer(category)
+    
+    return Response(
+        {
+            "success" : True,
+            "messege" : "Category has been created",
+            "category" : serializer.data,
+        },
+    status = 201
     )

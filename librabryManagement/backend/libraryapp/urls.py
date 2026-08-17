@@ -4,5 +4,5 @@ from .views import *
 
 urlpatterns = [
     path('api/admin/login/',admin_login_api),
-
+    path('api/categories/add/',add_category),
 ]

@@ -1,0 +1,156 @@
+import axios from "axios"
+import { toast } from "react-toastify"
+import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+
+const AddCategory = () => {
+    const [name,setName] = useState("");
+    const [status,setStatus] = useState("1");
+    const [loading, setLoading] = useState(false);
+    const [categories, setCategories] = useState([]);
+    const navigate = useNavigate();
+    const adminUser = localStorage.getItem("adminUser");
+
+    useEffect(() =>{
+        if(!adminUser){
+            navigate("admin/login")
+        }
+        else{
+            fetchCategories();
+        }
+    },[])
+
+    const fetchCategories = async () => {
+        try {
+            const res = await axios.get("http://127.0.0.1:8000/api/categories/");
+            setCategories(res.data);
+        }
+        catch (err) {
+            console.error(err)
+            toast.error("Failed to load categories")
+        }
+    }
+
+    const handlesubmit = async (e) => {
+        e.preventDefault()
+        setLoading(true);
+
+        try {
+            const res = await axios.post("http://127.0.0.1:8000/api/categories/add/",
+                {name, status}
+            );
+            if (res.status.success){
+                toast.success(res.status.message || "Categories created")
+                setName("")
+                setStatus("1")
+                fetchCategories()
+            }
+        }
+        catch (err){
+            console.error(err)
+            toast.error("Something went wrong")
+        }
+        finally{
+            setLoading(false)
+        }
+    }
+  return (
+    <div
+      className="py-5"
+      style={{
+        background: "linear-gradient(135deg,#f3f4ff,#fdfbff)",
+        minHeight: "100vh"
+      }}
+    >
+      <div className="container">
+        <div className="row mb-4" mx-auto>
+          <div className="col-md-">
+
+            <div className="mb-4 text-center">
+              <h3 className="fw-semibold mb-1">
+                <i className="fa-solid fa-layer-group text-primary"></i>
+                Add Category
+              </h3>
+
+              <p className="text-muted small">
+                Create new book categories and manage their active status
+              </p>
+            </div>
+
+            <div className="row g-4">
+                <div className="col-md-5">
+                 <div className="card border-0 shadow-sm rounded-4">
+              <div className="card-body p-4">
+
+                <form onSubmit={handlesubmit}>
+
+                  <div className="mb-3">
+                    <label className="form-label small fw-medium">
+                      Category Name
+                    </label>
+                      <input type="text" className="form-control"
+                        placeholder="e.g Programming languague,science,Novel"
+                        required
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                  </div>
+
+                   <div className="mb-3">
+                    <label className="form-label small fw-medium">
+                      Status
+                    </label>
+                      <div className="d-flex gap-3">
+                        <div className="form-check">
+                            <input type="radio" className="form-check-input"
+                        value="1"
+                        checked = {status==="1"}
+                        onChange={(e) => setStatus(e.target.value)}
+                        id="status-active"
+                        name="status"
+                      />
+                      <label className="form-check-label small" htmlFor="status-active">Active</label>
+                        </div>
+
+                         <div className="form-check">
+                            <input type="radio" className="form-check-input"
+                        value="0"
+                        checked = {status==="0"}
+                        onChange={(e) => setStatus(e.target.value)}
+                        id="status-inactive"
+                        name="status"
+                      />
+                      <label className="form-check-label small" htmlFor="status-inactive">Inactive</label>
+                        </div>
+
+                      </div>
+                  </div>
+
+                  <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+                    {loading ? (
+                      <>
+                        <span className="spinner-border spinner-border-sm me-2"></span>
+                        Creating...</>) : (<>
+                          <i className="fa-solid fa-plus me-2"></i>
+                        Create Category</>)}
+                  </button>
+
+                </form>
+
+              </div>
+            </div>
+                </div>
+                <div className="col-md-7">
+
+                </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default AddCategory

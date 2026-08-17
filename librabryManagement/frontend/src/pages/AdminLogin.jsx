@@ -17,7 +17,7 @@ const AdminLogin = () => {
       const res = await axios.post("http://127.0.0.1:8000/api/admin/login/",
         { username, password }
       );
-      if (res.data.success) {
+      if (res.status === 200) {
         toast.success(res.data.message || "Login successfully")
         localStorage.setItem("adminUser", res.data.username);
         navigate("/admin/dashboard");
