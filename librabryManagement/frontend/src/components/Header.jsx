@@ -1,8 +1,15 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 const Header = () => {
     const location = useLocation()
+    const adminUser = localStorage.getItem("adminUser");
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        localStorage.removeItem("adminUser");
+        navigate("/admin/login")
+    }
 
     const isActive = (path) => {
         return location.pathname === path ? "active text-danger fw-semibold" : "" ;
@@ -22,6 +29,9 @@ const Header = () => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+
+                        {!adminUser && ( <>
+
                         <li className="nav-item">
                             <Link className={`nav-link ${isActive("/")}`} to="/">
                                 <i className='fa-solid fa-home me-1'></i>Home</Link>
@@ -38,6 +48,90 @@ const Header = () => {
                             <Link class="btn btn-primary" to="/admin/login">
                                 <i className='fa-solid fa-user-shield me-1'></i>Admin Login</Link>
                         </li>
+                        </>)}
+
+                        {adminUser && (
+                            <>
+                             <li className="nav-item">
+                               <Link className={`nav-link ${isActive("/admin/dashboard")}`} to="/admin/dashboard">
+                                <i className='fa-solid fa-gauge-high me-1'></i>Dashboard</Link>
+                             </li>
+                             
+                             <li className='nav-item dropdown'>
+                                <button className='nav-link dropdown-toggle btn-link' data-bs-toggle="dropdown">
+                                   <i className='fa-solid fa-layer-group me-1'></i>Categories
+                                </button>
+                                 <ul className='dropdown-menu dropdown-menu-end'>
+                                    <li>
+                                        <Link className="dropdown-item" to="/admin/category_add">
+                                        <i className='fa-solid fa-plus me-1'></i>Add Category</Link>
+                                    </li>
+                                    
+                                     <Link className="dropdown-item" to="/admin/category_add">
+                                    <i className='fa-solid fa-list me-1'></i>Manage Category</Link>
+
+                                 </ul>
+                             </li>
+
+                              <li className='nav-item dropdown'>
+                                <button className='nav-link dropdown-toggle btn-link' data-bs-toggle="dropdown">
+                                   <i className='fa-solid fa-user-pen me-1'></i>Authors
+                                </button>
+                                 <ul className='dropdown-menu dropdown-menu-end'>
+                                    <li>
+                                        <Link className="dropdown-item" to="/admin/category_add">
+                                        <i className='fa-solid fa-plus me-1'></i>Add Author</Link>
+                                    </li>
+                                    
+                                     <Link className="dropdown-item" to="/admin/category_add">
+                                    <i className='fa-solid fa-list me-1'></i>Manage Category</Link>
+
+                                 </ul>
+                             </li>
+
+                              <li className='nav-item dropdown'>
+                                <button className='nav-link dropdown-toggle btn-link' data-bs-toggle="dropdown">
+                                   <i className='fa-solid fa-books me-1'></i>Books
+                                </button>
+                                 <ul className='dropdown-menu dropdown-menu-end'>
+                                    <li>
+                                        <Link className="dropdown-item" to="/admin/category_add">
+                                        <i className='fa-solid fa-plus me-1'></i>Add book</Link>
+                                    </li>
+                                    
+                                    <li>
+                                     <Link className="dropdown-item" to="/admin/category_add">
+                                    <i className='fa-solid fa-list me-1'></i>Manage Book</Link>
+                                    </li>
+
+                                    <li>
+                                     <Link className="dropdown-item" to="/admin/category_add">
+                                    <i className='fa-solid fa-arrow-right-arrow-left me-1'></i>Issued Book</Link>
+                                    </li>
+
+                                    <li className="nav-item">
+                                    <Link className="dropdown-item" to="/admin/category_add" to="/admin/dashboard">
+                                    <i className='fa-solid fa-right-from-backet me-1'></i>Issue Book</Link>
+                                    </li>
+                                 </ul>
+                             </li>
+
+                                <li className="nav-item">
+                            <Link className={`nav-link ${isActive("/admin/dashboard")}`} to="/admin/dashboard">
+                            <i className='fa-solid fa-user me-1'></i>Students</Link>
+                            </li>
+
+                            <li className="nav-item">
+                            <Link className={`nav-link ${isActive("/admin/dashboard")}`} to="/admin/dashboard">
+                            <i className='fa-solid fa-key'></i>Change Password</Link>
+                            </li>
+
+                            <li className="nav-item">
+                            <button className="btn btn-outline-danger" to="/admin/dashboard" onClick={handleLogout}>
+                            <i className='fa-solid fa-right-from-bracket me-1'></i>Logout</button>
+                            </li>
+                    </>
+                        )}
                     </ul>
                 </div>
             </div>

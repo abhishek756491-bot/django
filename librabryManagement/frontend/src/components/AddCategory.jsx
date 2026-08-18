@@ -13,7 +13,7 @@ const AddCategory = () => {
 
     useEffect(() =>{
         if(!adminUser){
-            navigate("admin/login")
+            navigate("/admin/login")
         }
         else{
             fetchCategories();
@@ -39,11 +39,11 @@ const AddCategory = () => {
             const res = await axios.post("http://127.0.0.1:8000/api/categories/add/",
                 {name, status}
             );
-            if (res.status.success){
-                toast.success(res.status.message || "Categories created")
-                setName("")
-                setStatus("1")
-                fetchCategories()
+            if (res.data.success) {
+              toast.success(res.data.message || "Category created")
+              setName("")
+              setStatus("1")
+              fetchCategories()
             }
         }
         catch (err){
@@ -141,7 +141,44 @@ const AddCategory = () => {
             </div>
                 </div>
                 <div className="col-md-7">
+                  <div className="card border-0 shadow-sm rounded-4">
+                    <div className="card-body p-4">
+                      <h6 className="fw-semibold mb-3">Existing Categories</h6>
 
+                      {categories.length === 0 ? (
+                        <p className="text-muted small">no categories found. Add your first category form.</p>
+                      ) : 
+                      (
+                       <div className="table-responsive">
+                           <table className="table">
+                             <thead>
+                              <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                              </tr>
+                             </thead>
+                              <tbody>
+                              {categories.map((cat,index) => (
+                               <tr key={cat.id}>
+                                  <td>{index+1}</td>
+                                  <td>{cat.name}</td>
+                                  <td>{cat.is_active ? 
+                                  (<span className="badge bg-success-subtle text-success border-success-subtle">Active</span>)
+                                   :
+                                   (<span className="badge bg-secondary-subtle text-secondary border-secondary-subtle">Inactive</span>)}</td>
+                                   <td>{new Date (cat.created_at).toLocaleDateString()}</td>
+                               </tr>
+                              ))}
+                                
+                              </tbody>
+                           </table>
+                       </div>
+                  
+                      )}
+                    </div>
+                  </div>
                 </div>
 
             </div>
