@@ -45,6 +45,9 @@ const AddCategory = () => {
               setStatus("1")
               fetchCategories()
             }
+            else{
+              toast.error(res.data.message || "Invalid credeential")
+            }
         }
         catch (err){
             console.error(err)
@@ -65,7 +68,6 @@ const AddCategory = () => {
       <div className="container">
         <div className="row mb-4" mx-auto>
           <div className="col-md-">
-
             <div className="mb-4 text-center">
               <h3 className="fw-semibold mb-1">
                 <i className="fa-solid fa-layer-group text-primary"></i>
@@ -76,6 +78,8 @@ const AddCategory = () => {
                 Create new book categories and manage their active status
               </p>
             </div>
+          </div>
+        </div>
 
             <div className="row g-4">
                 <div className="col-md-5">
@@ -178,11 +182,7 @@ const AddCategory = () => {
                   
                       )}
                     </div>
-                  </div>
-                </div>
-
             </div>
-
           </div>
         </div>
       </div>

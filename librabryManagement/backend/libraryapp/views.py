@@ -55,3 +55,4 @@ def list_categories(request):
     serializer = CategorySerializer(categories,many=True)
     
     return Response(serializer.data, status = status.HTTP_200_OK)
+

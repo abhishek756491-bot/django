@@ -67,7 +67,7 @@ const Header = () => {
                                         <i className='fa-solid fa-plus me-1'></i>Add Category</Link>
                                     </li>
                                     
-                                     <Link className="dropdown-item" to="/admin/category_add">
+                                     <Link className="dropdown-item" to="/admin/category_manage">
                                     <i className='fa-solid fa-list me-1'></i>Manage Category</Link>
 
                                  </ul>
