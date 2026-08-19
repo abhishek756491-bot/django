@@ -7,5 +7,10 @@ urlpatterns = [
     path('api/categories/add/',add_category),
     path('api/categories/',list_categories),
     path('api/update_category/<int:id>/',update_category),
-    path('api/delete_category/<int:id>/',delete_category)
+    path('api/delete_category/<int:id>/',delete_category),
+
+    path('api/authors/add/',add_author),
+    path('api/authors/',list_authors),
+    path('api/update_author/<int:id>/',update_author),
+    path('api/delete_author/<int:id>/',delete_author)
 ]

@@ -36,7 +36,7 @@ def add_category(request):
     status = request.data.get("status","1")
 
     is_active = True if str(status) == "1" else False
-    category =Category.objects.create(name=name,is_active=is_active)
+    category = Category.objects.create(name=name,is_active=is_active)
     serializer = CategorySerializer(category)
     
     return Response(
@@ -50,7 +50,7 @@ def add_category(request):
 
 @api_view(["GET"])
 def list_categories(request):
-    categories= Category.objects.all().order_by("-id")
+    categories = Category.objects.all().order_by("-id")
 
     serializer = CategorySerializer(categories,many=True)
     
@@ -61,7 +61,7 @@ from django.shortcuts import get_object_or_404
 def update_category(request,id):
     category = get_object_or_404(Category,id=id)
     name = request.data.get("name")
-    category_status = request.data.get("password")
+    category_status = request.data.get("status","1")
     
     is_active = True if str(category_status) == "1" else False
     category.name = name
@@ -88,6 +88,60 @@ def delete_category(request,id):
         {
             "success" : True,
             "message" : "Category deleted has been successfully",
+        },
+        status = status.HTTP_200_OK
+    )
+
+@api_view(["POST"])
+def add_author(request):
+    name = request.data.get("name")
+    
+    author = Author.objects.create(name=name)
+    serializer = AuthorSerializer(author)
+    
+    return Response(
+        {
+            "success" : True,
+            "message" : "Author has been created",
+            "author" : serializer.data,
+        },
+       status = status.HTTP_201_CREATED
+    )
+
+@api_view(["GET"])
+def list_authors(request):
+    authors = Author.objects.all().order_by("-id")
+
+    serializer = AuthorSerializer(authors,many=True)
+
+    return Response(serializer.data, status = status.HTTP_200_OK)
+
+@api_view(["PUT"])
+def update_author(request,id):
+    author = get_object_or_404(Author,id=id)
+    name = request.data.get("name")
+
+    author.name = name
+    author.save()
+    serializer = AuthorSerializer(author)
+
+    return Response(
+        {
+            "success" : True,
+            "message" : "Author has been updated",
+            "author" : serializer.data
+        }
+    )
+
+@api_view(["DELETE"])
+def delete_author(request,id):
+    author = get_object_or_404(Author,id=id)
+    author.delete()
+
+    return Response(
+        {
+            "success" : True,
+            "message" : "Author deleted successfully"
         },
         status = status.HTTP_200_OK
     )
