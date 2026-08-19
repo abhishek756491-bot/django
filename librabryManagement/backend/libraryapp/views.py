@@ -56,3 +56,38 @@ def list_categories(request):
     
     return Response(serializer.data, status = status.HTTP_200_OK)
 
+from django.shortcuts import get_object_or_404
+@api_view(["PUT"])
+def update_category(request,id):
+    category = get_object_or_404(Category,id=id)
+    name = request.data.get("name")
+    category_status = request.data.get("password")
+    
+    is_active = True if str(category_status) == "1" else False
+    category.name = name
+    category.is_active = is_active
+    category.save()
+    serializer = CategorySerializer(category)
+
+    return Response(
+        {
+            "success" : True,
+            "message" : "Category has been updated",
+            "category" : serializer.data,
+        },
+        status = status.HTTP_200_OK
+    )
+
+@api_view(["DELETE"])
+def delete_category(request,id):
+    category = get_object_or_404(Category,id=id)
+    
+    category.delete()
+    
+    return Response(
+        {
+            "success" : True,
+            "message" : "Category deleted has been successfully",
+        },
+        status = status.HTTP_200_OK
+    )
