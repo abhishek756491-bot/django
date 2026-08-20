@@ -145,3 +145,57 @@ def delete_author(request,id):
         },
         status = status.HTTP_200_OK
     )
+
+from rest_framework.decorators import parser_classes
+from rest_framework.parsers import MultiPartParser, FormParser
+
+@api_view(["POST"])
+@parser_classes([MultiPartParser, FormParser])
+def add_book(request):
+    title = request.data.get("title")
+    author_id = request.data.get("author")
+    category_id = request.data.get("category")
+    isbn = request.data.get("isbn")
+    price = request.data.get("price")
+    quantity = request.data.get("quantity")
+    coverfile = request.FILES.get("coverfile")
+    
+    author = Author.objects.get(id=author_id)
+    category = Category.objects.get(id=category_id)
+
+    if Book.objects.filter(isbn=isbn).exists():
+        return Response(
+            {
+                "success" : False,
+                "message" : "Book with this ISBN already exists",
+            },
+            status = status.HTTP_400_BAD_REQUEST
+        )
+
+    book = Book.objects.create(
+        title=title,
+        author=author,
+        category=category,
+        price=price,
+        quantity=quantity,
+        coverfile=coverfile
+    )
+    serializer = BookSerializer(book) #single book instance serializer
+
+    return Response(
+        {
+            "success" : True,
+            "message" : "Book has been created",
+            "book" : serializer.data,
+        },
+       status = status.HTTP_201_CREATED
+    )
+
+
+@api_view(["GET"])
+def list_books(request):
+    books = Book.objects.all().order_by("-id")
+
+    serializer = BookSerializer(books,many=True)
+
+    return Response(serializer.data, status = status.HTTP_200_OK)
