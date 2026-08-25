@@ -3,11 +3,10 @@ import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 
-const AddCategory = () => {
+const AddAuthor = () => {
     const [name,setName] = useState("");
-    const [status,setStatus] = useState("1");
+    const [authors,setAuthors] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [categories, setCategories] = useState([]);
     const navigate = useNavigate();
     const adminUser = localStorage.getItem("adminUser");
 
@@ -16,18 +15,18 @@ const AddCategory = () => {
             navigate("/admin/login")
         }
         else{
-            fetchCategories();
+            fetchAuthors();
         }
     },[])
 
-    const fetchCategories = async () => {
+    const fetchAuthors = async () => {
         try {
-            const res = await axios.get("http://127.0.0.1:8000/api/categories/");
-            setCategories(res.data);
+            const res = await axios.get("http://127.0.0.1:8000/api/authors/");
+            setAuthors(res.data);
         }
         catch (err) {
             console.error(err)
-            toast.error("Failed to load categories")
+            toast.error("Failed to load authors")
         }
     }
 
@@ -36,17 +35,16 @@ const AddCategory = () => {
         setLoading(true);
 
         try {
-            const res = await axios.post("http://127.0.0.1:8000/api/categories/add/",
-                {name, status}
+            const res = await axios.post("http://127.0.0.1:8000/api/authors/add/",
+                {name}
             );
             if (res.data.success) {
-              toast.success(res.data.message || "Category created")
+              toast.success(res.data.message || "Author created")
               setName("")
-              setStatus("1")
-              fetchCategories()
+              fetchAuthors()
             }
             else{
-              toast.error(res.data.message || "Failed to create category")
+              toast.error(res.data.message || "Failed to create author")
             }
         }
         catch (err){
@@ -66,16 +64,16 @@ const AddCategory = () => {
       }}
     >
       <div className="container">
-        <div className="row mb-4 mx-auto" >
-          <div className="col-md-">
+        <div className="row mb-4 mx-auto">
+          <div className="col-md-12">
             <div className="mb-4 text-center">
               <h3 className="fw-semibold mb-1">
-                <i className="fa-solid fa-layer-group text-primary"></i>
-                Add Category
+                <i className="fa-solid fa-user-pen text-primary"></i>
+                Add Author
               </h3>
 
               <p className="text-muted small">
-                Create new book categories and manage their active status
+                Create new authors and manage their information
               </p>
             </div>
           </div>
@@ -90,53 +88,24 @@ const AddCategory = () => {
 
                   <div className="mb-3">
                     <label className="form-label small fw-medium">
-                      Category Name
+                      Author Name
                     </label>
                       <input type="text" className="form-control"
-                        placeholder="e.g Programming languague,science,Novel"
+                        placeholder="e.g John Doe, Jane Smith"
                         required
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                       />
-                  </div>
-
-                   <div className="mb-3">
-                    <label className="form-label small fw-medium">
-                      Status
-                    </label>
-                      <div className="d-flex gap-3">
-                        <div className="form-check">
-                            <input type="radio" className="form-check-input"
-                        value="1"
-                        checked = {status==="1"}
-                        onChange={(e) => setStatus(e.target.value)}
-                        id="status-active"
-                        name="status"
-                      />
-                      <label className="form-check-label small" htmlFor="status-active">Active</label>
-                        </div>
-
-                         <div className="form-check">
-                            <input type="radio" className="form-check-input"
-                        value="0"
-                        checked = {status==="0"}
-                        onChange={(e) => setStatus(e.target.value)}
-                        id="status-inactive"
-                        name="status"
-                      />
-                      <label className="form-check-label small" htmlFor="status-inactive">Inactive</label>
-                        </div>
-
                       </div>
-                  </div>
+                  
 
                   <button type="submit" className="btn btn-primary w-100" disabled={loading}>
                     {loading ? (
                       <>
                         <span className="spinner-border spinner-border-sm me-2"></span>
-                        Creating...</>) : (<>
+                        Adding...</>) : (<>
                           <i className="fa-solid fa-plus me-2"></i>
-                        Create Category</>)}
+                        Add Author</>)}
                   </button>
 
                 </form>
@@ -147,10 +116,10 @@ const AddCategory = () => {
                 <div className="col-md-7">
                   <div className="card border-0 shadow-sm rounded-4">
                     <div className="card-body p-4">
-                      <h6 className="fw-semibold mb-3">Existing Categories</h6>
+                      <h6 className="fw-semibold mb-3">Existing Authors</h6>
 
-                      {categories.length === 0 ? (
-                        <p className="text-muted small">no categories found. Add your first category form.</p>
+                      {authors.length === 0 ? (
+                        <p className="text-muted small">no authors found. Add your first author form.</p>
                       ) : 
                       (
                        <div className="table-responsive">
@@ -159,20 +128,15 @@ const AddCategory = () => {
                               <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Status</th>
                                 <th>Created</th>
                               </tr>
                              </thead>
                               <tbody>
-                              {categories.map((cat,index) => (
-                               <tr key={cat.id}>
+                              {authors.map((author,index) => (
+                               <tr key={author.id}>
                                   <td>{index+1}</td>
-                                  <td>{cat.name}</td>
-                                  <td>{cat.is_active ? 
-                                  (<span className="badge bg-success-subtle text-success border-success-subtle">Active</span>)
-                                   :
-                                   (<span className="badge bg-secondary-subtle text-secondary border-secondary-subtle">Inactive</span>)}</td>
-                                   <td>{new Date (cat.created_at).toLocaleDateString()}</td>
+                                  <td>{author.name}</td>
+                                   <td>{new Date (author.created_at).toLocaleDateString()}</td>
                                </tr>
                               ))}
                                 
@@ -190,4 +154,4 @@ const AddCategory = () => {
   )
 }
 
-export default AddCategory
+export default AddAuthor

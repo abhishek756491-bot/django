@@ -3,12 +3,11 @@ import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 
-const ManageCategories = () => {
+const ManageAuthors = () => {
     const [editId, setEditId] = useState(null)
     const [editName,setEditName] = useState("");
-    const [editStatus,setEditStatus] = useState("1");
     const [loadingList, setLoadingList] = useState(false);
-    const [categories, setCategories] = useState([]);
+    const [authors, setAuthors  ] = useState([]);
     const [saving,setSaving] = useState(false)
     const navigate = useNavigate();
     const adminUser = localStorage.getItem("adminUser");
@@ -18,34 +17,33 @@ const ManageCategories = () => {
             navigate("/admin/login")
         }
         else{
-            fetchCategories();
+            fetchAuthors
+            ();
         }
     },[])
 
-    const fetchCategories = async () => {
+    const fetchAuthors = async () => {
       setLoadingList(true)
         try {
-            const res = await axios.get("http://127.0.0.1:8000/api/categories/");
-            setCategories(res.data);
+            const res = await axios.get("http://127.0.0.1:8000/api/authors/");
+            setAuthors(res.data);
         }
         catch (err) {
             console.error(err)
-            toast.error("Failed to load categories")
+            toast.error("Failed to load authors")
         }
         finally{
           setLoadingList(false)
         }
     }
-    const StartEdit= (cat) => {
-        setEditId(cat.id)
-        setEditName(cat.name)
-        setEditStatus(cat.is_active ? "1" : "0")
+    const StartEdit= (author) => {
+        setEditId(author.id)
+        setEditName(author.name)
     }
 
     const cancelEdit=() => {
       setEditId(null)
       setEditName("")
-      setEditStatus("1")
     }
 
     const handleUpdate = async (e) => {
@@ -53,13 +51,13 @@ const ManageCategories = () => {
         setSaving(true);
 
         try {
-            const res = await axios.put(`http://127.0.0.1:8000/api/update_category/${editId}/`,
-                {name:editName, status:editStatus}
+            const res = await axios.put(`http://127.0.0.1:8000/api/update_author/${editId}/`,
+                {name:editName}
             );
             if (res.data.success) {
-              toast.success(res.data.message || "Category updated")
+              toast.success(res.data.message || "Author updated")
               cancelEdit();
-              fetchCategories()
+              fetchAuthors()
             }
             else{
               toast.error(res.data.message || "Update failed")
@@ -74,15 +72,15 @@ const ManageCategories = () => {
         }
     }
    const handleDelete = async (id)=>{
-    const ok = window.confirm("Are you sure want to delete this category?");
+    const ok = window.confirm("Are you sure want to delete this author?");
     if(!ok) return;
 
     try {
-      const res = await axios.delete(`http://127.0.0.1:8000/api/delete_category/${id}/`)
+      const res = await axios.delete(`http://127.0.0.1:8000/api/delete_author/${id}/`)
 
       if (res.data.success){
-        toast.success(res.data.messege ||  "Category deleted")
-        setCategories((prev) => prev.filter((c)=>c.id !== id))
+        toast.success(res.data.messege ||  "Author deleted")
+        setAuthors((prev) => prev.filter((a)=>a.id !== id))
       }
       else{
         toast.error(res.data.messege || "Delete failed")
@@ -108,67 +106,37 @@ const ManageCategories = () => {
             <div className="mb-4 text-center">
               <h3 className="fw-semibold mb-1">
                 <i className="fa-solid fa-layer-group text-primary"></i>
-                Manage Categories
+                Manage Authors
               </h3>
 
               <p className="text-muted small">
-                View, edit, and delete categories from the library
+                View, edit, and delete authors from the library system.
               </p>
               
             </div>
             <button className="btn btn-outline-primary btn-sm"
-            onClick={()=>navigate("/admin/category_add")}>Add New</button>
+            onClick={()=>navigate("/admin/author_add")}>Add New</button>
           </div>
         </div>
             <div className="row g-4">
                 <div className="col-md-4">
                  <div className="card border-0 shadow-sm rounded-4">
               <div className="card-body p-4">
-                 <h6 className="fw-semibold mb-3">{editId ? "Edit Category" : "select a category to a edit"}</h6>
+                 <h6 className="fw-semibold mb-3">{editId ? "Edit Author" : "select an author to edit"}</h6>
 
                  {editId ? (
                   <form onSubmit={handleUpdate}>
 
                   <div className="mb-3">
                     <label className="form-label small fw-medium">
-                      Category Name
+                      Author Name
                     </label>
                       <input type="text" className="form-control"
-                        placeholder="e.g Programming languague,science,Novel"
+                        placeholder="e.g John Doe, Jane Smith"
                         required
                         value={editName}
                         onChange={(e) => setEditName(e.target.value)}
                       />
-                  </div>
-
-                   <div className="mb-3">
-                    <label className="form-label small fw-medium">
-                      Status
-                    </label>
-                      <div className="d-flex gap-3">
-                        <div className="form-check">
-                            <input type="radio" className="form-check-input"
-                        value="1"
-                        checked = {editStatus==="1"}
-                        onChange={(e) => setEditStatus(e.target.value)}
-                        id="status-active"
-                        name="status"
-                      />
-                      <label className="form-check-label small" htmlFor="status-active">Active</label>
-                        </div>
-
-                         <div className="form-check">
-                            <input type="radio" className="form-check-input"
-                        value="0"
-                        checked = {editStatus==="0"}
-                        onChange={(e) => setEditStatus(e.target.value)}
-                        id="status-inactive"
-                        name="status"
-                      />
-                      <label className="form-check-label small" htmlFor="status-inactive">Inactive</label>
-                        </div>
-
-                      </div>
                   </div>
 
                   <button type="submit" className="btn btn-primary w-100" disabled={saving}>
@@ -183,7 +151,7 @@ const ManageCategories = () => {
                 </form>
                  ) : (
                   <p className="text-muted small">
-                    Click on the <strong>Edit</strong> button in the table to modify a category.
+                    Click on the <strong>Edit</strong> button in the table to modify an author.
                   </p>
                  )}
                 
@@ -194,7 +162,7 @@ const ManageCategories = () => {
                 <div className="col-md-8">
                   <div className="card border-0 shadow-sm rounded-4">
                     <div className="card-body p-4">
-                      <h6 className="fw-semibold mb-3">Categories Listing</h6>
+                      <h6 className="fw-semibold mb-3">Authors Listing</h6>
                       
                       {loadingList ? (
                         <div className="text-center py-4">
@@ -202,8 +170,8 @@ const ManageCategories = () => {
 
                           </div>
                         </div>
-                      ) : categories.length === 0 ? (
-                        <p className="text-muted small">no categories found. Try adding a new one.</p>
+                      ) : authors.length === 0 ? (
+                        <p className="text-muted small">no authors found. Try adding a new one.</p>
                       ):(
                        <div className="table-responsive">
                            <table className="table table-striped table-hover">
@@ -211,31 +179,26 @@ const ManageCategories = () => {
                               <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Status</th>
                                 <th>Created</th>
                                 <th>Updated</th>
                                 <th className="text-center">Action</th>
                               </tr>
                              </thead>
                               <tbody>
-                              {categories.map((cat,index) => (
-                               <tr key={cat.id}>
+                              {authors.map((author,index) => (
+                               <tr key={author.id}>
                                   <td>{index+1}</td>
-                                  <td>{cat.name}</td>
-                                  <td>{cat.is_active ? 
-                                  (<span className="badge bg-success-subtle text-success border-success-subtle">Active</span>)
-                                   :
-                                   (<span className="badge bg-secondary-subtle text-secondary border-secondary-subtle">Inactive</span>)}</td>
-                                   <td className="small text-muted">{new Date (cat.created_at).toLocaleDateString()}</td>
-                                   <td className="small text-muted">{new Date (cat.updated_at).toLocaleDateString()}</td>
-                                   <td className="text-center d-flex">
+                                  <td>{author.name}</td>
+                                   <td className="small text-muted">{new Date (author.created_at).toLocaleDateString()}</td>
+                                   <td className="small text-muted">{new Date (author.updated_at).toLocaleDateString()}</td>
+                                   <td className="text-center">
                                     <button className="btn btn-sm btn-outline-primary me-2"
-                                    onClick={()=>StartEdit(cat)}>
+                                    onClick={()=>StartEdit(author)}>
                                       <i className="fa-solid fa-pen-to-square"/>Edit
                                     </button>
                                    
                                    <button className="btn btn-sm btn-outline-danger me-2"
-                                   onClick={() => handleDelete(cat.id)}>
+                                   onClick={() => handleDelete(author.id)}>
                                       <i className="fa-solid fa-trash-can"/>Delete
                                     </button>
                                    </td>
@@ -257,4 +220,4 @@ const ManageCategories = () => {
   )
 }
 
-export default ManageCategories
+export default ManageAuthors

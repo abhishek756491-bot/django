@@ -79,28 +79,28 @@ const Header = () => {
                                 </button>
                                  <ul className='dropdown-menu dropdown-menu-end'>
                                     <li>
-                                        <Link className="dropdown-item" to="/admin/category_add">
+                                        <Link className="dropdown-item" to="/admin/author_add">
                                         <i className='fa-solid fa-plus me-1'></i>Add Author</Link>
                                     </li>
                                     
-                                     <Link className="dropdown-item" to="/admin/category_add">
-                                    <i className='fa-solid fa-list me-1'></i>Manage Category</Link>
+                                     <Link className="dropdown-item" to="/admin/author_manage">
+                                    <i className='fa-solid fa-list me-1'></i>Manage Author</Link>
 
                                  </ul>
                              </li>
 
                               <li className='nav-item dropdown'>
                                 <button className='nav-link dropdown-toggle btn-link' data-bs-toggle="dropdown">
-                                   <i className='fa-solid fa-books me-1'></i>Books
+                                   <i className='fa-solid fa-book me-1'></i>Books
                                 </button>
                                  <ul className='dropdown-menu dropdown-menu-end'>
                                     <li>
-                                        <Link className="dropdown-item" to="/admin/category_add">
+                                        <Link className="dropdown-item" to="/admin/book_add">
                                         <i className='fa-solid fa-plus me-1'></i>Add book</Link>
                                     </li>
                                     
                                     <li>
-                                     <Link className="dropdown-item" to="/admin/category_add">
+                                     <Link className="dropdown-item" to="/admin/book_manage">
                                     <i className='fa-solid fa-list me-1'></i>Manage Book</Link>
                                     </li>
 
@@ -110,7 +110,7 @@ const Header = () => {
                                     </li>
 
                                     <li className="nav-item">
-                                    <Link className="dropdown-item" to="/admin/category_add" to="/admin/dashboard">
+                                    <Link className="dropdown-item" to="/admin/category_add">
                                     <i className='fa-solid fa-right-from-backet me-1'></i>Issue Book</Link>
                                     </li>
                                  </ul>

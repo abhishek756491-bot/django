@@ -5,6 +5,7 @@ from .models import *
 from .serializers import *
 from rest_framework import status
 
+
 @api_view(["POST"])
 def admin_login_api(request):
     username = request.data.get("username")
@@ -158,37 +159,39 @@ def add_book(request):
     isbn = request.data.get("isbn")
     price = request.data.get("price")
     quantity = request.data.get("quantity")
-    coverfile = request.FILES.get("coverfile")
-    
+    cover_image = request.FILES.get("cover_image")
+
     author = Author.objects.get(id=author_id)
     category = Category.objects.get(id=category_id)
 
     if Book.objects.filter(isbn=isbn).exists():
         return Response(
             {
-                "success" : False,
-                "message" : "Book with this ISBN already exists",
+                "success": False,
+                "message": "Book with this ISBN already exists",
             },
-            status = status.HTTP_400_BAD_REQUEST
+            status=status.HTTP_400_BAD_REQUEST
         )
 
     book = Book.objects.create(
         title=title,
         author=author,
         category=category,
+        isbn=isbn,
         price=price,
         quantity=quantity,
-        coverfile=coverfile
+        cover_image=cover_image
     )
-    serializer = BookSerializer(book) #single book instance serializer
+
+    serializer = BookSerializer(book)
 
     return Response(
         {
-            "success" : True,
-            "message" : "Book has been created",
-            "book" : serializer.data,
+            "success": True,
+            "message": "Book has been created",
+            "book": serializer.data,
         },
-       status = status.HTTP_201_CREATED
+        status=status.HTTP_201_CREATED
     )
 
 
@@ -199,3 +202,51 @@ def list_books(request):
     serializer = BookSerializer(books,many=True)
 
     return Response(serializer.data, status = status.HTTP_200_OK)
+
+@api_view(["PUT"])
+@parser_classes([MultiPartParser, FormParser])
+def update_book(request,id):
+    book = get_object_or_404(Book,id=id)
+    title = request.data.get("title")
+    author_id = request.data.get("author")
+    category_id = request.data.get("category")
+    price = request.data.get("price")
+    quantity = request.data.get("quantity")
+    cover_image = request.FILES.get("cover_image")
+
+    author = Author.objects.get(id=author_id)
+    category = Category.objects.get(id=category_id)
+
+    book.title = title
+    book.author = author
+    book.category = category
+    book.price = price
+    book.quantity = quantity
+
+    if cover_image:
+        book.cover_image = cover_image
+
+    book.save()
+    serializer = BookSerializer(book)
+
+    return Response(
+        {
+            "success": True,
+            "message": "Book has been updated",
+            "book": serializer.data,
+        },
+        status=status.HTTP_200_OK
+    )
+
+@api_view(["DELETE"])
+def delete_book(request,id):
+    book = get_object_or_404(Book,id=id)
+    book.delete()
+
+    return Response(
+        {
+            "success": True,
+            "message": "Book deleted successfully"
+        },
+        status = status.HTTP_200_OK
+    )

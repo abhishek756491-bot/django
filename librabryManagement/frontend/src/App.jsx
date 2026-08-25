@@ -7,6 +7,10 @@ import "react-toastify/dist/ReactToastify.css";
 import AdminDashboard from './pages/AdminDashboard'
 import AddCategory from './components/AddCategory'
 import ManageCategories from './pages/ManageCategories'
+import AddAuthor from './pages/AddAuthor'
+import ManageAuthors from './pages/ManageAuthors'
+import AddBook from './pages/AddBook'
+import ManageBooks from './pages/ManageBooks'
 
 const App = () => {
   return (
@@ -19,6 +23,10 @@ const App = () => {
         <Route  path='/admin/dashboard' element={<AdminDashboard/>}></Route>
         <Route  path='/admin/category_add' element={<AddCategory/>}></Route>
         <Route  path='/admin/category_manage' element={<ManageCategories/>}></Route>
+        <Route  path='/admin/author_add' element={<AddAuthor/>}></Route>
+        <Route  path='/admin/author_manage' element={<ManageAuthors/>}></Route>
+        <Route  path='/admin/book_add' element={<AddBook/>}></Route>
+        <Route  path='/admin/book_manage' element={<ManageBooks/>}></Route>
       </Routes>
     </div>
   )
