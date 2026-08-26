@@ -250,3 +250,130 @@ def delete_book(request,id):
         },
         status = status.HTTP_200_OK
     )
+
+from django.contrib.auth.models import User
+
+@api_view(["POST"])
+def change_admin_password(request):
+    username = request.data.get("username")
+    current_password = request.data.get("current_password")
+    new_password = request.data.get("new_password")
+    confirm_password = request.data.get("confirm_password")
+    
+    if new_password != confirm_password:
+        return Response(
+            {
+                "success": False,
+                "message": "New password and confirm password do not match"
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    if len(new_password) < 6:
+        return Response(
+            {
+                "success": False,
+                "message": "New password must be at least 6 characters long"
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    user = authenticate(username=username, password=current_password)
+
+    try:
+        user = User.objects.get(username=username,is_staff=True)
+    except User.DoesNotExist:
+        return Response(
+            {
+                "success": False,
+                "message": "Admin user does not exist"
+            },
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    if user.check_password(current_password):
+        user.set_password(new_password)
+        user.save()
+        return Response(
+            {
+                "success": True,
+                "message": "Password changed successfully"
+            },
+            status=status.HTTP_200_OK
+        )
+    else:
+        return Response(
+            {
+                "success": False,
+                "message": "Invalid current password"
+            },
+            status=status.HTTP_401_UNAUTHORIZED
+        )
+
+
+from django.contrib.auth.hashers import make_password
+
+@api_view(["POST"])
+def user_signup(request):
+    full_name = request.data.get("full_name")
+    mobile = request.data.get("mobile")
+    email = request.data.get("email")
+    password = request.data.get("password")
+    confirmPassword = request.data.get("confirmPassword")
+
+    if password != confirmPassword:
+        return Response(
+            {
+                "success" : False,
+                "message" : "password do not match",
+            },
+            status = status.HTTP_400_BAD_REQUEST
+        )
+    
+    if len(password) < 6:
+        return Response(
+            {
+                "success": False,
+                "message": "New password must be at least 6 characters long"
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    last_student = Student.objects.all().order_by().first()
+    if last_student and last_student.student_id.isdigit():
+        new_id_int = int(last_student.student_id) + 1
+
+    else:
+        new_id_int = 1001
+
+    student_id = str(new_id_int)
+
+    if Student.objects.filter(email=email).exists():
+        return Response(
+            {
+                "success" : False,
+                "message" : "Email already axist"
+            },
+            status = status.HTTP_400_BAD_REQUEST
+        )
+        
+    hashed_password = make_password(password)
+
+    student = Student.objects.create(
+        student_id = student_id,
+        full_name = full_name,
+        mobile = mobile,
+        email = email,
+        password = hashed_password,
+        is_active = True
+    )
+
+    return Response(
+        {
+            "success" : True,
+            "message" : "User registered successfully",
+            "student_id" : student.student_id,
+            "student_name" : student.full_name,
+        },
+        status = status.HTTP_201_CREATED
+    )
