@@ -20,5 +20,6 @@ urlpatterns = [
     path('api/delete_book/<int:id>/',delete_book),
     path('api/change_admin_password/',change_admin_password),
 
-    path('api/user/signup/',user_signup)
+    path('api/user/signup/',user_signup),
+    path('api/user/login/',user_login)
 ]

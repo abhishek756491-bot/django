@@ -4,12 +4,20 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 const Header = () => {
     const location = useLocation()
     const adminUser = localStorage.getItem("adminUser");
+    const studentUser = localStorage.getItem("studentUser")
     const navigate = useNavigate()
 
     const handleLogout = () => {
         localStorage.removeItem("adminUser");
         navigate("/admin/login")
     }
+
+    const handleStudentLogout = () => {
+        localStorage.removeItem("studentUser");
+        navigate("/user/login")
+    }
+
+    
 
     const isActive = (path) => {
         return location.pathname === path ? "active text-danger fw-semibold" : "" ;
@@ -30,7 +38,7 @@ const Header = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
 
-                        {!adminUser && ( <>
+                        {!adminUser && !studentUser && ( <>
 
                         <li className="nav-item">
                             <Link className={`nav-link ${isActive("/")}`} to="/">
@@ -132,6 +140,50 @@ const Header = () => {
                             </li>
                     </>
                         )}
+
+                        
+                        {studentUser && (
+                            <>
+                             <li className="nav-item">
+                               <Link className={`nav-link ${isActive("/user/dashboard")}`} to="/user/dashboard">
+                                <i className='fa-solid fa-gauge-high me-1'></i>Dashboard</Link>
+                             </li>
+
+                             <li className="nav-item">
+                               <Link className={`nav-link ${isActive("/user/books")}`} to="/user/books">
+                                <i className='fa-solid fa-book-open me-1'></i>MyLibrary</Link>
+                             </li>
+
+                             <li className="nav-item">
+                               <Link className={`nav-link ${isActive("/user/issued-books")}`} to="/user/issued-books">
+                                <i className='fa-solid fa-receipt me-1'></i>Issued Book</Link>
+                             </li>
+
+                             <li className='nav-item dropdown'>
+                                <button className='nav-link dropdown-toggle btn-link' data-bs-toggle="dropdown">
+                                   <i className='fa-solid fa-circle-user me-1'></i>My account
+                                </button>
+                                 <ul className='dropdown-menu dropdown-menu-end'>
+                                    <li>
+                                        <Link className="dropdown-item" to="/user/profile">
+                                        <i className='fa-solid fa-id-badge me-1'></i>Add Profile</Link>
+                                    </li>
+                                    
+                                    <li>
+                                     <Link className="dropdown-item" to="/user/change_password">
+                                    <i className='fa-solid fa-key me-1'></i>Change Password</Link>
+                                    </li>
+                                    
+                                    <hr className='dropdown-divider'/>
+                                     <li className="nav-item">
+                                      <button className="dropdown-item text-danger btn-outline-danger"  onClick={handleStudentLogout}>
+                                      <i className='fa-solid fa-right-from-bracket me-2'></i>Logout</button>
+                                    </li>
+
+                                 </ul>
+                             </li>
+                          </>
+                        )}   
                     </ul>
                 </div>
             </div>

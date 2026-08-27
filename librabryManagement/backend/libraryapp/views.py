@@ -377,3 +377,54 @@ def user_signup(request):
         },
         status = status.HTTP_201_CREATED
     )
+
+
+from django.contrib.auth.hashers import check_password
+@api_view(["POST"])
+def user_login(request):
+    login_id = request.data.get("login_id")
+    password = request.data.get("password")
+     
+    try:
+        if "@" in login_id:
+            student = Student.objects.get(email=login_id)
+        else:
+            student = Student.objects.get(student_id=login_id)
+
+    except Student.DoesNotExists:
+        return Response(
+            {
+                "success" : False,
+                "message" : "Inivalid login crendentials"
+            },
+            status = status.HTTP_401_UNAUTHORIZED
+        )
+
+    if not check_password(password, student.password):
+        return Response(
+            {
+                "success" : False,
+                "messege" :"invalid login credentials"
+            },
+            status = status.HTTP_401_UNAUTHORIZED
+        )
+    
+    if not student.is_active:
+        return Response(
+            {
+            "success" : False,
+            "messege" : "User account is inactive, please contact admin"
+            },
+            status =  status.HTTP_403_FORBIDDEN
+        )
+    
+    return Response(
+        {
+            "success" : True,
+            "messege" : "Login successfull",
+            "student_id" : student.student_id,
+            "full_name" : student.full_name,
+            "email" : student.email,
+        },
+        status = status.HTTP_200_OK
+    )

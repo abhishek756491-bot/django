@@ -1,13 +1,15 @@
 import axios from "axios"
 import { toast } from "react-toastify"
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 const UserLogin = () => {
     const [formdata, setFormdata] = useState({
         login_id: "",
         password: "",
     });
+
+    const Navigate = useNavigate()
     
     const [loading, setLoading] = useState(false);
 
@@ -20,19 +22,20 @@ const UserLogin = () => {
    
     const handlesubmit = async (e) => {
         e.preventDefault();
-
-        setLoading(true);
-
+        setLoading(true)
         try {
             const res = await axios.post("http://127.0.0.1:8000/api/user/login/",formdata
                 
             );
             if (res.data.success) {
+              localStorage.setItem("studentUser",JSON.stringify(res.data))
               toast.success(`Login successful!.`)
+              Navigate("/user/dashboard")
               setFormdata({
                 login_id: "",
                 password: "",
               });
+              
             }
             else{
               toast.error(res.data.message || "Login failed");
@@ -55,15 +58,15 @@ const UserLogin = () => {
       }}
     >
       <div className="container">
-        <div className="row mb-3 ">
+        <div className="row mb-2 ">
           <div className="col-md-8 mx-auto">
             <div className="mb-2 text-center">
               <h3 className="fw-semibold mb-1">
-                <i className="fa-solid fa-user-plus text-primary"></i>
-                  User SignUp</h3>
+                <i className="fa-solid fa-user text-primary"></i>
+                  User Login</h3>
          
               <p className="text-muted small">
-                Create your account by filling the form below.
+                 Please enter your login crendials to access your account.
               </p>
             </div>
           </div>
@@ -77,42 +80,17 @@ const UserLogin = () => {
                 <form onSubmit={handlesubmit}>
 
                   <div className="mb-3">
-                    <label className="form-label small fw-medium">Full name</label>
-                         <input type="text" className="form-control" placeholder="Enter Full Name"
-                        required value={formdata.full_name} name="full_name"
-                        onChange={handleChange}
-                      />
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label small fw-medium">Mobile Number</label>
-                         <input type="number" className="form-control" placeholder="Enter Mobile Number"
-                        required value={formdata.mobile} name="mobile"
-                        onChange={handleChange}
-                      />
-                  </div>
-
-                  
-                  <div className="mb-3">
-                    <label className="form-label small fw-medium">Email</label>
-                         <input type="email" className="form-control" placeholder="Enter Email"
-                        required value={formdata.email} name="email"
+                    <label className="form-label small fw-medium">Email or Student Id</label>
+                         <input type="text" className="form-control" placeholder="Enter email or student Id"
+                        required value={formdata.login_id} name="login_id"
                         onChange={handleChange}
                       />
                   </div>
 
                   <div className="mb-3">
                     <label className="form-label small fw-medium">Password</label>
-                         <input type="password" className="form-control" placeholder="Enter Password"
+                         <input type="password" className="form-control" placeholder="Enter password"
                         required value={formdata.password} name="password"
-                        onChange={handleChange}
-                      />
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label small fw-medium">Confirm Password</label>
-                         <input type="password" className="form-control" placeholder="Enter conform password"
-                        required value={formdata.confirmPassword} name="confirmPassword"
                         onChange={handleChange}
                       />
                   </div>
@@ -121,11 +99,11 @@ const UserLogin = () => {
                     {loading ? (
                       <>
                         <span className="spinner-border spinner-border-sm me-2"></span>
-                        Registering...</>) : (<>
+                        Logging in...</>) : (<>
                           <i className="fa-solid fa-user-plus me-2"></i>
-                        Register now</>)}
+                        Login </>)}
                   </button>
-                   <p className="text-center text-muted small mt-2">Already haven account? <Link to="/user/login">Login here</Link></p>
+                   <p className="text-center text-muted small mt-2">You don't have account. <Link to="/user/signup">Register now</Link></p>
 
                 </form>
 
