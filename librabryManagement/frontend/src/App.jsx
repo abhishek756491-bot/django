@@ -14,6 +14,7 @@ import ManageBooks from './pages/ManageBooks'
 import AdminChangePassword from './pages/AdminChangePassword'
 import UserSignUp from './pages/userSignUp'
 import UserLogin from './pages/UserLogin'
+import StudentDashboard from './pages/StudentDashboard'
 
 const App = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
         <Route  path='/admin/change_password' element={<AdminChangePassword/>}></Route>
         <Route  path='/user/signup' element={<UserSignUp/>}/>
         <Route  path='/user/login' element={<UserLogin/>}/>
+        <Route path='/user/dashboard' element={<StudentDashboard/>}/>
       </Routes>
     </div>
   )
