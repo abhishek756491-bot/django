@@ -18,8 +18,13 @@ urlpatterns = [
     path('api/books/',list_books),
     path('api/update_book/<int:id>/',update_book),
     path('api/delete_book/<int:id>/',delete_book),
+    
     path('api/change_admin_password/',change_admin_password),
 
     path('api/user/signup/',user_signup),
-    path('api/user/login/',user_login)
+    path('api/user/login/',user_login),
+
+    path('api/user_stats/',user_stats),
+
+    path('api/user/books/',user_list_books)
 ]

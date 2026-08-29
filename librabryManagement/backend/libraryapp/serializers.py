@@ -15,6 +15,13 @@ class AuthorSerializer(serializers.ModelSerializer):
 class BookSerializer(serializers.ModelSerializer):
     author_name = serializers.CharField(source='author.name', read_only=True)
     category_name = serializers.CharField(source='category.name', read_only=True)
+    available_quantity = serializers.SerializerMethodField()
+
     class Meta:
         model = Book
         fields = "__all__"
+
+    def get_available_quantity(self, obj):
+        issued_count = obj.issued_records.filter(is_returned=False).count()
+        available = obj.quantity - issued_count
+        return available if available >= 0 else 0

@@ -428,3 +428,42 @@ def user_login(request):
         },
         status = status.HTTP_200_OK
     )
+
+@api_view(["GET"])
+def user_stats(request):
+    student_id=request.query_params.get("student_id")
+
+    try:
+        student = Student.objects.get(student_id=student_id)
+    except Student.DoesNotExists:
+        return Response(
+            {
+                "success" : False,
+                "message" : "Student not found",
+            },
+            status = status.HTTP_404_NOt_FOUND
+        )
+    total_books = Book.objects.count()
+    total_issued = IssuedBook.objects.filter(student=student).count()
+    not_returned = IssuedBook.objects.filter(student=student,is_returned=False).count()
+
+    stats = {
+        "total_books" : total_books,
+        "total_issued" : total_issued,
+        "not_returned" : not_returned
+    }
+
+    return Response(
+        {
+            "success" : True,
+            "stats" : stats
+
+        },
+        status = status.HTTP_200_OK
+    )
+
+@api_view(["GET"])
+def user_list_books(request):
+    books = Book.objects.select_related('author','category').prefetch('issued_records').all().order_by("title")
+    serializer = BookSerializer(books,many=true)
+    return Response(serializer.data, status= status.HTTP_200_OK)
