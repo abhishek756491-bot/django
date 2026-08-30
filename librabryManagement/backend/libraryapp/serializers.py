@@ -23,5 +23,5 @@ class BookSerializer(serializers.ModelSerializer):
 
     def get_available_quantity(self, obj):
         issued_count = obj.issued_records.filter(is_returned=False).count()
-        available = obj.quantity - issued_count
+        available = int(obj.quantity) - issued_count
         return available if available >= 0 else 0

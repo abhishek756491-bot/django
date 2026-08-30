@@ -464,6 +464,6 @@ def user_stats(request):
 
 @api_view(["GET"])
 def user_list_books(request):
-    books = Book.objects.select_related('author','category').prefetch('issued_records').all().order_by("title")
-    serializer = BookSerializer(books,many=true)
+    books = Book.objects.select_related('author','category').prefetch_related('issued_records').all().order_by("title")
+    serializer = BookSerializer(books,many=True)
     return Response(serializer.data, status= status.HTTP_200_OK)
