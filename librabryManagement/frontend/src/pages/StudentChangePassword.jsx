@@ -3,8 +3,8 @@ import { toast } from "react-toastify"
 import { useState,useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
-const StudentProfile = () => {
-  const [profile,setProfile] = useState({
+const StudentChangePassword = () => {
+    const [profile,setProfile] = useState({
       student_id : "",
       full_name : "",
       email : "",
@@ -81,21 +81,7 @@ const StudentProfile = () => {
     }
    }
 
-   if (loading) {
-  return (
-    <div
-      className="d-flex flex-column justify-content-center align-items-center"
-      style={{ height: "80vh" }}
-    >
-      <div
-        className="spinner-border text-primary"
-        role="status"
-      ></div>
-
-      <p className="mt-3 text-muted">Loading...</p>
-    </div>
-  )
-}
+    
   return (
     <div
       className="py-5"
@@ -119,54 +105,9 @@ const StudentProfile = () => {
         </div>
          <p className="mt-3">Welcome {studentUser.full_name || "Guest"}</p>
        </div>
-
-       <div className="row justify-content-center">
-        <div className="col-md-7">
-          <div className="card shadow-sm border-0 rounder-4">
-            <div className="card-body p-4">
-
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <label htmlFor="student_id" className="form-lable">Student_Id</label>
-                  <input type="text" name="student_id" value={profile.student_id} readOnly
-                  onChange={handleChange}  className="form-control"/>
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="full-name" className="form-lable">Full Name</label>
-                  <input type="text" name="full_name" value={profile.full_name}
-                  onChange={handleChange}  className="form-control bg-light"/>
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-lable">Email</label>
-                  <input type="email" name="email" value={profile.email} readOnly
-                  onChange={handleChange}  className="form-control"/>
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="mobile" className="form-lable">Mobile</label>
-                  <input type="number" 
-                  name="mobile" 
-                  value={profile.mobile} readOnly
-                  onChange={handleChange}  className="form-control"/>
-                </div>
-
-                <button type="submit" disabled={saving} className={`btn ${saving ? "btn-secondery" : "btn-primary"} w-100 `}>
-                  {saving ? (
-                    <> <span className="spinner-border spinner-border-sm me-2">
-                    </span> saving...</>) : (<>
-                    <i className="bi bi-save me-2"></i>Save Changes</>)}
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-
-       </div>
-       </div>
+      </div>
     </div>
   )
 }
 
-export default StudentProfile
+export default StudentChangePassword

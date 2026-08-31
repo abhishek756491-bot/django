@@ -25,3 +25,9 @@ class BookSerializer(serializers.ModelSerializer):
         issued_count = obj.issued_records.filter(is_returned=False).count()
         available = int(obj.quantity) - issued_count
         return available if available >= 0 else 0
+
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = "__all__"
+        

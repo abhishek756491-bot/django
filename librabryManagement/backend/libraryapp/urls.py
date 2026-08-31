@@ -26,5 +26,7 @@ urlpatterns = [
 
     path('api/user_stats/',user_stats),
 
-    path('api/user/books/',user_list_books)
+    path('api/user/books/',user_list_books),
+   
+    path('api/user/profile/', user_profile)
 ]

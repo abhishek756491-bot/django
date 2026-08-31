@@ -16,6 +16,8 @@ import UserSignUp from './pages/userSignUp'
 import UserLogin from './pages/UserLogin'
 import StudentDashboard from './pages/StudentDashboard'
 import StudentBooks from './pages/StudentBooks'
+import StudentProfile from './pages/StudentProfile'
+import StudentChangePassword from './pages/StudentChangePassword'
 
 const App = () => {
   return (
@@ -37,6 +39,8 @@ const App = () => {
         <Route  path='/user/login' element={<UserLogin/>}/>
         <Route path='/user/dashboard' element={<StudentDashboard/>}/>
         <Route path='/user/books' element={<StudentBooks/>}/>
+        <Route path='/user/profile' element={<StudentProfile/>}></Route>
+        <Route path='/user/change_password' element={<StudentChangePassword/>}></Route>
       </Routes>
     </div>
   )

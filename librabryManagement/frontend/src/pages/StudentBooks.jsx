@@ -16,7 +16,7 @@ const StudentBooks = () => {
 
     useEffect(() => {
       if(!studentUser){
-        Navigate("user/login");
+        Navigate("/user/login");
         return;
       }
         const fetchbooks = async () =>{
@@ -45,7 +45,7 @@ const StudentBooks = () => {
         }
         const filteredBooks = book.filter(book=>
             book.title.toLowerCase().includes(term) || 
-            book.author.toLowerCase().includes(term) ||
+            book.author_name.toLowerCase().includes(term) ||
             book.isbn.toLowerCase().includes(term)
         );
         setFiltered(filteredBooks);

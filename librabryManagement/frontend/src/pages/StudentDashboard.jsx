@@ -18,7 +18,7 @@ const StudentDashboard = () => {
 
     useEffect(() => {
       if(!studentUser){
-        Navigate("user/login");
+        Navigate("/user/login");
         return;
       }
         const fetchStats = async () =>{
@@ -59,7 +59,7 @@ const StudentDashboard = () => {
               </h3>
 
         </div>
-        <p className="mt-3">Welcome {studentUser.full_name}</p>
+        <p className="mt-3">Welcome {studentUser.full_name || "Guest"}</p>
        </div>
 
        {loading && (
