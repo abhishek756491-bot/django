@@ -28,5 +28,10 @@ urlpatterns = [
 
     path('api/user/books/',user_list_books),
    
-    path('api/user/profile/', user_profile)
+    path('api/user/profile/', user_profile),
+    path('api/change_password/', change_password),
+
+    path('api/admin/students/', list_registered_students),
+    path('api/admin/students/block/<int:id>/', block_student),
+    path('api/admin/students/unblock/<int:id>/', unblock_student),
 ]

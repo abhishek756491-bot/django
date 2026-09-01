@@ -109,7 +109,7 @@ const StudentBooks = () => {
             <div className="card border-0 shadow-sm h-100 rounded-4">
               <div className="bg-light d-flex align-items-center justify-content-center rounded-2" style={{height:"200px"}}>
                 <img src={`http://127.0.0.1:8000${book.cover_image}`} alt={Image.title} 
-                style={{maxHeight:"180px", objectFit:"contain"}}/>
+                style={{maxHeight:"180px", width:"80%", objectFit:"contain"}}/>
               </div>
               <div className="card-body d-flex flex-column">
                   <h6 className="mb-1 text-truncate">{book.title}</h6>

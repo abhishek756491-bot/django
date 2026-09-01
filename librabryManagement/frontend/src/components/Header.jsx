@@ -125,7 +125,7 @@ const Header = () => {
                              </li>
 
                                 <li className="nav-item">
-                            <Link className={`nav-link ${isActive("/admin/dashboard")}`} to="/admin/dashboard">
+                            <Link className={`nav-link ${isActive("/admin/manage_students")}`} to="/admin/manage_students">
                             <i className='fa-solid fa-user me-1'></i>Students</Link>
                             </li>
 
