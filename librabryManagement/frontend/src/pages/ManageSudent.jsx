@@ -24,7 +24,6 @@ const ManageStudents = () => {
       try {
           const res = await axios.get("http://127.0.0.1:8000/api/admin/students/");
           setStudents(res.data);
-          toast.success("Students loaded successfully")
       }
       catch (err) {
           console.error(err)
@@ -138,11 +137,8 @@ const ManageStudents = () => {
                               </tbody>
                            </table>
                        </div>
-                  
-                      )}
-                      
-                    </div>
-                  
+                      )}      
+              </div>
           </div>
       </div>
     </div>

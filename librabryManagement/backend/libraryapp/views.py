@@ -586,3 +586,98 @@ def unblock_student(request,id):
         },
         status=status.HTTP_200_OK
     )
+
+@api_view(["GET"])
+def get_student_by_id(request):
+    student_id = request.query_params.get("student_id") or request.data.get("student_id")
+    try:
+        student = Student.objects.get(student_id=student_id)
+        serializer = StudentSerializer(student)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Student.DoesNotExist:
+        return Response(
+            {
+                "success" : False,
+                "message" : "Student not found"
+            },
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+@api_view(["GET"])
+def lookup_book_for_issue(request):
+    query = request.query_params.get("q")
+    try:
+        book = Book.objects.get(isbn__iexact=query)
+    except Book.DoesNotExist:
+        book = Book.objects.filter(title__icontains=query).first()
+        if not book:
+            return Response(
+                {
+                    "success" : False,
+                    "message" : "Book not found"
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
+    serializer = BookSerializer(book)
+    return Response({ "success": True, "book": serializer.data ,}, status=status.HTTP_200_OK)
+
+@api_view(["POST"])
+def issue_book(request):
+    student_id = request.data.get("student_id")
+    book_id = request.data.get("book_id")
+    remarks = request.data.get("remarks", "")
+
+    try:
+        student = Student.objects.get(student_id=student_id)
+        return Response(
+            {
+                "success": True,
+                "student": StudentSerializer(student).data
+            },
+            status=status.HTTP_200_OK
+        )
+    except Student.DoesNotExist:
+        return Response(
+            {
+                "success": False,
+                "message": "Student not found"
+            },
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    try:
+        book = Book.objects.get(id=book_id)
+    except Book.DoesNotExist:
+        return Response(
+            {
+                "success": False,
+                "message": "Book not found"
+            },
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    if book.quantity <= 0:
+        return Response(
+            {
+                "success": False,
+                "message": "Book is out of stock"
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    issued_book = IssuedBook.objects.create(student=student,
+     book=book,remarks=remarks,fine=0,is_returned=False)
+    book.quantity -= 1
+    book.is_issued = true
+    book.save()
+
+    serializer = BookSerializer(issued_book)
+
+    return Response(
+        {
+            "success": True,
+            "message": "Book issued successfully",
+            "issued_book": serializer.data
+        },
+        status=status.HTTP_201_CREATED
+    )

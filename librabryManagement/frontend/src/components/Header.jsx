@@ -117,12 +117,13 @@ const Header = () => {
                                     <i className='fa-solid fa-arrow-right-arrow-left me-1'></i>Issued Book</Link>
                                     </li>
 
-                                    <li className="nav-item">
-                                    <Link className="dropdown-item" to="/admin/category_add">
-                                    <i className='fa-solid fa-right-from-backet me-1'></i>Issue Book</Link>
-                                    </li>
                                  </ul>
                              </li>
+
+                             <li className="nav-item">
+                                <Link className={`nav-link ${isActive("/admin/issue-book")}`} to="/admin/issue-book">
+                                <i className='fa-solid fa-right-from-bracket me-1'></i>Issue Book</Link>
+                            </li>
 
                                 <li className="nav-item">
                             <Link className={`nav-link ${isActive("/admin/manage_students")}`} to="/admin/manage_students">

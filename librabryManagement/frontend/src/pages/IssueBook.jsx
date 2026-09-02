@@ -1,0 +1,212 @@
+import {useState,useEffect, use} from 'react'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
+
+const IssueBook = () => {
+  const [student,setStudent] = useState(null)
+  const [studentId,setStudentId] = useState("")
+  const [bookQuery,setBookQuery] = useState("")
+  const [book,setBook] = useState(null)
+  const [studentLoading,setStudentLoading] = useState(false)
+  const [bookLoading,setBookLoading] = useState(false)
+  const [issuingLoading,setIssuingLoading] = useState(false)
+  const [remark,setRemark] = useState("")
+  const navigate = useNavigate();
+
+  const adminUser = localStorage.getItem("adminUser");
+
+  useEffect(() =>{
+    if(!adminUser){
+        navigate("/admin/login")
+    }
+  }, []);
+
+  const handlefetchStudent = async () => {
+    if(!studentId){
+      toast.error("Please enter student ID")
+      return
+    }
+    setStudent(null)
+    setStudentLoading(true);
+    try {
+      const res = await axios.get(`http://localhost:8000/api/students/by-id/?student_id=${studentId}`);
+      setStudent(res.data);
+    } catch (error) {
+      toast.error("student not found");
+    } finally {
+      setStudentLoading(false);
+    }
+  };
+
+  const handlefetchBook = async () => {
+    if(!bookQuery){
+      toast.error("Please enter book name or ISBN")
+      return
+    }
+    setBook(null)
+    setBookLoading(true);
+    try {
+      const res = await axios.get(`http://localhost:8000/api/books/lookup/?q=${bookQuery}`);
+      setBook(res.data.book);
+    }
+    catch (error) {
+      toast.error("Book not found");
+    }
+    finally {
+      setBookLoading(false);
+    }
+  };
+  const handleIssueBook = async () => {
+    if(!student || !book || !remark){
+      toast.error("Please fill all the fields")
+      return
+    }
+    if (book.quantity < 0) {
+      toast.error("Book is out of stock")
+      return
+    }
+    setIssuingLoading(true);
+    try {
+      const res = await axios.post("http://localhost:8000/api/issue-book/", {
+        student_id: student.student_id,
+        book_id: book.book_id,
+        remark: remark
+      });
+      toast.success("Book issued successfully");
+      setRemark("");
+      setStudent(null);
+      setBook(null);
+      setStudentId("");
+      setBookQuery("");
+    } catch (error) {
+      toast.error("Failed to issue book");
+    } finally {
+      setIssuingLoading(false);
+    }
+  };
+
+
+const bookCoverUrl = book && book.cover_image ? 
+(book.cover_image.startsWith("http") ? book.cover_image :
+ `http://localhost:8000${book.cover_image}`): null;
+
+  return (
+   <div
+      className="py-5"
+      style={{
+        background: "linear-gradient(135deg,#f3f4ff,#fdfbff)",
+        minHeight: "100vh"
+      }}
+    >
+      <div className="container">
+        <div className="row mb-4">
+          <div className="col-md-8 mx-auto d-flex justify-content-between align-items-center">
+            <div className="mb-4 text-center">
+              <h3 className="fw-semibold mb-1">
+                <i className="fa-solid fa-layer-group text-primary"></i>
+                Issue a new book
+              </h3>
+
+              <p className="text-muted small">
+                search student and book, then issue the book with a remark.
+              </p>
+              
+            </div>
+            <button className="btn btn-outline-primary btn-sm"
+            onClick={()=>navigate("/admin/issued_books")}> Manage Issued Books</button>
+          </div>
+        </div>
+
+        <div className="row gap-4">
+          <div className="col-md-7 mx-auto">
+            <div className="card border-0 shadow-sm rounded-4">
+              <div className="card-body p-4">
+                <form onSubmit={handleIssueBook}>
+                  <div className="mb-4">
+                    <label className="form-label sm fw-medium">
+                      Student ID <span className="text-danger">*</span></label>
+                      <div className="input-group">
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Enter student ID"
+                          value={studentId}
+                          onBlur={handlefetchStudent}
+                          onChange={(e) => setStudentId(e.target.value)}
+                        />
+                        <button
+                          type="button"
+                          className="btn btn-outline-secondary"
+                          onClick={handlefetchStudent}
+                        >
+                          {studentLoading ? (
+                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                          ) : (
+                            <>
+                            <i className="fa-solid fa-search me-1"></i> Find</>
+                          )}
+                        </button>
+                    </div>
+                     <div className="mt-2 small">
+                          {student ? (
+                            <span className="text-success fw-bold">{student.full_name}</span>
+                          ) : (
+                            <span className="text-muted">Enter student ID and click Find</span>
+                          )}
+                        </div>
+                  </div>
+
+                   <div className="mb-4">
+                    <label className="form-label sm fw-medium">
+                      ISBN Number or Book Title <span className="text-danger">*</span></label>
+                      <div className="input-group">
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Enter ISBN number or book title"
+                          value={bookQuery}
+                          onBlur={handlefetchBook}
+                          onChange={(e) => setBookQuery(e.target.value)}
+                        />
+                        <button
+                          type="button"
+                          className="btn btn-outline-secondary"
+                          onClick={handlefetchBook}
+                        >
+                          {bookLoading ? (
+                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                          ) : (
+                            <>
+                            <i className="fa-solid fa-search me-1"></i> Find</>
+                          )}
+                        </button>
+                    </div>
+                     <div className="mt-2 small">
+                          {book ? (
+                            <span className="text-success fw-bold">{book.title} , {book.isbn} - {book.quantity}</span>
+                          ) : (
+                            <span className="text-muted">Enter ISBN number or book title and click Find</span>
+                          )}
+                        </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div className="col-md-5 mx-auto">
+            <div className="card shadow">
+              <div className="card-body">
+                <h5 className="card-title">Issue Book</h5>
+                <p className="card-text">Fill in the details to issue a book to a student.</p>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default IssueBook
