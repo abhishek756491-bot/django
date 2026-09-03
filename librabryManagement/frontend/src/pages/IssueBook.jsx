@@ -118,8 +118,8 @@ const bookCoverUrl = book && book.cover_image ?
           </div>
         </div>
 
-        <div className="row gap-4">
-          <div className="col-md-7 mx-auto">
+        <div className="row">
+          <div className="col-md-7 ">
             <div className="card border-0 shadow-sm rounded-4">
               <div className="card-body p-4">
                 <form onSubmit={handleIssueBook}>
@@ -132,6 +132,7 @@ const bookCoverUrl = book && book.cover_image ?
                           className="form-control"
                           placeholder="Enter student ID"
                           value={studentId}
+                          required
                           onBlur={handlefetchStudent}
                           onChange={(e) => setStudentId(e.target.value)}
                         />
@@ -167,6 +168,7 @@ const bookCoverUrl = book && book.cover_image ?
                           placeholder="Enter ISBN number or book title"
                           value={bookQuery}
                           onBlur={handlefetchBook}
+                          required
                           onChange={(e) => setBookQuery(e.target.value)}
                         />
                         <button
@@ -184,26 +186,74 @@ const bookCoverUrl = book && book.cover_image ?
                     </div>
                      <div className="mt-2 small">
                           {book ? (
-                            <span className="text-success fw-bold">{book.title} , {book.isbn} - {book.quantity}</span>
+                            <span className="text-success fw-bold">{book.title} , ({book.isbn}) - {book.quantity}</span>
                           ) : (
                             <span className="text-muted">Enter ISBN number or book title and click Find</span>
                           )}
                         </div>
                   </div>
+
+                  <div className="mb-4">
+                    <label className="form-label sm fw-medium">
+                      Remark <span className="text-danger">*</span></label>
+                      <textarea
+                        className="form-control"
+                        rows="3"
+                        placeholder="Enter remark"
+                        value={remark}
+                        onChange={(e) => setRemark(e.target.value)}
+                        required
+                      />
+                  </div>
+                 <button type="submit" className="btn btn-primary w-4" disabled={issuingLoading}>
+                   {issuingLoading ? (
+                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true">issuing...</span>
+                   ) : (
+                    <>
+                    <i className="fa-solid fa-book-open me-1"></i> Issue Book</>
+                   )}
+                 </button>
+                
                 </form>
               </div>
             </div>
+           </div>
 
-            <div className="col-md-5 mx-auto">
-            <div className="card shadow">
-              <div className="card-body">
-                <h5 className="card-title">Issue Book</h5>
-                <p className="card-text">Fill in the details to issue a book to a student.</p>
+           <div className="col-md-5">
+            <div className="card border-0 shadow-sm rounded-4">
+              <div className="card-body p-3">
+                <div className='d-flex align-item-center'>
+                  <div className='rounded-circle d-inline-flex align-items-center justify-content-center me-3'
+                  style={{width:"50px",
+                  height:"50px",
+                  backgroundColor:"#f0f0f0",
+                  color:"#4f46e5"}} >
+                    <i className="fa-solid fa-user-graduate"></i>
+                  </div>
+                  <div className=''>
+                      <div className='small-muted'>Book</div>
+                      <div className='fw-semibold'>{student ? student.full_name : "No student selected"}</div>
+                      {student && <div className='small text-muted'>ID: {student.student_id} - Email: {student.email}</div>}
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-md-5">
+            <div className="card border-0 shadow-sm rounded-4">
+              <div className="card-body p-3">
+                <div className='d-flex'>
+                  <div className=''>
+                      <div className='small-muted'>Book</div>
+                      <div className='fw-semibold'>{book ? book.title : "No book selected"}</div>
+                      {book && <div className='small text-muted'>ISBN: {book.isbn} - Author: {book.author}</div>}
+                    </div>
+                </div>
               </div>
             </div>
           </div>
           </div>
-        </div>
       </div>
     </div>
   )
