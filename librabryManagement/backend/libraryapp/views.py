@@ -625,59 +625,113 @@ def lookup_book_for_issue(request):
 def issue_book(request):
     student_id = request.data.get("student_id")
     book_id = request.data.get("book_id")
-    remarks = request.data.get("remarks", "")
+    remark = request.data.get("remark", "")
 
     try:
         student = Student.objects.get(student_id=student_id)
-        return Response(
-            {
-                "success": True,
-                "student": StudentSerializer(student).data
-            },
-            status=status.HTTP_200_OK
-        )
     except Student.DoesNotExist:
-        return Response(
-            {
-                "success": False,
-                "message": "Student not found"
-            },
-            status=status.HTTP_404_NOT_FOUND
-        )
+        return Response({
+            "success": False,
+            "message": "Student not found"
+        }, status=status.HTTP_404_NOT_FOUND)
 
     try:
         book = Book.objects.get(id=book_id)
     except Book.DoesNotExist:
-        return Response(
-            {
-                "success": False,
-                "message": "Book not found"
-            },
-            status=status.HTTP_404_NOT_FOUND
-        )
+        return Response({
+            "success": False,
+            "message": "Book not found"
+        }, status=status.HTTP_404_NOT_FOUND)
 
     if book.quantity <= 0:
-        return Response(
-            {
-                "success": False,
-                "message": "Book is out of stock"
-            },
-            status=status.HTTP_400_BAD_REQUEST
-        )
+        return Response({
+            "success": False,
+            "message": "Book is out of stock"
+        }, status=status.HTTP_400_BAD_REQUEST)
 
-    issued_book = IssuedBook.objects.create(student=student,
-     book=book,remarks=remarks,fine=0,is_returned=False)
+    issued_count = IssuedBook.objects.filter(
+        book=book,
+        is_returned=False
+    ).count()
+
+    available_quantity = book.quantity - issued_count
+
+    if available_quantity <= 0:
+        return Response({
+            "success": False,
+            "message": "Out of stock book"
+        }, status=status.HTTP_400_BAD_REQUEST)
+
+    issued_book = IssuedBook.objects.create(
+        student=student,
+        book=book,
+        remark=remark,
+        fine=0,
+        is_returned=False
+    )
+
     book.quantity -= 1
-    book.is_issued = true
+    book.is_issued = True
     book.save()
 
-    serializer = BookSerializer(issued_book)
+    return Response({
+        "success": True,
+        "message": "Book issued successfully",
+    }, status=status.HTTP_201_CREATED)
+
+@api_view(["GET"])
+def list_issued_books(request):
+    issued_books = IssuedBook.objects.select_related('student','book').all().order_by("-id")
+    serializer = IssuedBookSerializer(issued_books,many=True)
+    return Response(serializer.data,status=status.HTTP_200_OK)
+
+@api_view(["GET"])
+def get_issued_book_details(request,id=id):
+    issued_book = get_object_or_404(IssuedBook,id=id)
+    serializer = IssuedBookSerializer(Issued_book)
+    return Response(serializer.data , status = status.HTTP_200_OK)
+
+from django.utils import timezone
+@api_view(["POST"])
+def return_book(request):
+    issued_book = get_object_or_404(IssuedBook,id=id)
+    if Issued_book.is_returned:
+        return Response(
+            {
+                "success" : False,
+                "messege" : "This book has already been returned"
+            },
+            status = status.HTTP_400_BAD_TEQUEST
+        )
+
+    fine = request.data.get("fine",0)
+
+    try:
+        fine = int(fine)
+    except (ValueError, TypeError):
+        return Response(
+            {
+                "success" : False,
+                "message" :"Invalid fine value",
+            },
+            status = status.HTTP_400_BAD_REQUEST
+        )
+    
+    issued_book.is_returned = True
+    issued_book.fine = fine
+    issued_book.returned_at = timezone.now()
+    issued_book.save()
+
+    book = issued_book.book
+    book.quantity += 1
+    book.is_issued = book.issued_records.filter(is_returned = False).exists()
+
+    book.save(update_fields=["quantity", "is_issued"])
 
     return Response(
         {
-            "success": True,
-            "message": "Book issued successfully",
-            "issued_book": serializer.data
+            "success" : True,
+            "meesege" : "Book returned successfully"
         },
-        status=status.HTTP_201_CREATED
+        status = status.HTTP_200_OK
     )

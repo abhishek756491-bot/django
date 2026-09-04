@@ -57,12 +57,13 @@ const IssueBook = () => {
       setBookLoading(false);
     }
   };
-  const handleIssueBook = async () => {
+  const handleIssueBook = async (e) => {
+    e.preventDefault()
     if(!student || !book || !remark){
       toast.error("Please fill all the fields")
       return
     }
-    if (book.quantity < 0) {
+    if (book.quantity <= 0) {
       toast.error("Book is out of stock")
       return
     }
@@ -70,7 +71,7 @@ const IssueBook = () => {
     try {
       const res = await axios.post("http://localhost:8000/api/issue-book/", {
         student_id: student.student_id,
-        book_id: book.book_id,
+        book_id: book.id,
         remark: remark
       });
       toast.success("Book issued successfully");
@@ -192,7 +193,7 @@ const bookCoverUrl = book && book.cover_image ?
                           )}
                         </div>
                   </div>
-
+             
                   <div className="mb-4">
                     <label className="form-label sm fw-medium">
                       Remark <span className="text-danger">*</span></label>
@@ -218,8 +219,9 @@ const bookCoverUrl = book && book.cover_image ?
               </div>
             </div>
            </div>
-
+          
            <div className="col-md-5">
+
             <div className="card border-0 shadow-sm rounded-4">
               <div className="card-body p-3">
                 <div className='d-flex align-item-center'>
@@ -231,28 +233,39 @@ const bookCoverUrl = book && book.cover_image ?
                     <i className="fa-solid fa-user-graduate"></i>
                   </div>
                   <div className=''>
-                      <div className='small-muted'>Book</div>
+                      <div className='small-muted'>Student</div>
                       <div className='fw-semibold'>{student ? student.full_name : "No student selected"}</div>
                       {student && <div className='small text-muted'>ID: {student.student_id} - Email: {student.email}</div>}
                     </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="col-md-5">
-            <div className="card border-0 shadow-sm rounded-4">
+            <div className="card border-0 shadow-sm rounded-4 mt-3">
               <div className="card-body p-3">
-                <div className='d-flex'>
+                <div className='d-flex align-item-center'>
+                  {bookCoverUrl ? (
+                    <img src={bookCoverUrl} alt={book.title} 
+                    className='rounded me-3' 
+                    style={{width:"70px", height:"70px", objectFit:"cover"}} />
+                  ):(
+                    <div className='rounded me-3 d-flex align-items-center justify-content-center me-2'
+                    style={{width:"70px", height:"70px", background:"#eef2ff"}}>
+                      <i className='fa-solid fa-book text-muted'></i>
+                    </div>
+                  )}
                   <div className=''>
                       <div className='small-muted'>Book</div>
                       <div className='fw-semibold'>{book ? book.title : "No book selected"}</div>
-                      {book && <div className='small text-muted'>ISBN: {book.isbn} - Author: {book.author}</div>}
+                      {book && <div className='small text-muted'>ISBN: {book.isbn} - Quantity: {book.quantity}</div>}
                     </div>
                 </div>
               </div>
             </div>
+
           </div>
+           
+          
           </div>
       </div>
     </div>

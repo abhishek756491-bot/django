@@ -20,6 +20,8 @@ import StudentProfile from './pages/StudentProfile'
 import StudentChangePassword from './pages/StudentChangePassword'
 import ManageStudents from './pages/ManageSudent'
 import IssueBook from './pages/IssueBook'
+import ManageIssuedBook from './pages/ManageIssuedBook'
+import IssuedBookDetails from './pages/IssuedBookDetails'
 
 const App = () => {
   return (
@@ -45,6 +47,8 @@ const App = () => {
         <Route path='/user/change_password' element={<StudentChangePassword/>}></Route>
         <Route path='/admin/manage_students' element={<ManageStudents/>}></Route>
         <Route path='/admin/issue-book' element={<IssueBook/>}></Route>
+        <Route path='/admin/manage-issued-books' element={<ManageIssuedBook/>}></Route>
+        <Route path='/admin/issued-books/:id' element={<IssuedBookDetails/>}></Route>
       </Routes>
     </div>
   )

@@ -25,13 +25,13 @@ class Author(TimeStampedModel):
 class Student(TimeStampedModel):
     student_id = models.CharField(max_length=100,unique=True)
     full_name = models.CharField(max_length = 100)
-    mobile = models.PositiveIntegerField(max_length=10, null=True)
+    mobile = models.PositiveIntegerField(null=True)
     email = models.EmailField(max_length=15)
     password = models.CharField(max_length=20)
     is_active = models.BooleanField(default = True)
    
     def __str__(self):
-        return f"{self.student_id} - {self.name}"
+        return f"{self.student_id} - {self.full_name}"
 
 class Book(TimeStampedModel):
     title = models.CharField(max_length=100)

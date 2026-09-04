@@ -39,6 +39,8 @@ urlpatterns = [
     path('api/students/by-id/', get_student_by_id),
 
     path('api/books/lookup/', lookup_book_for_issue),
-    path('api/issue_book/', issue_book),
+    path('api/issue-book/', issue_book),
+    path('api/admin/issued-books/', list_issued_books),
+    path('api/issued-books/<int:id>/',get_issued_book_details)
 
 ]
