@@ -55,7 +55,7 @@ const ManageIssuedBook = () => {
               
             </div>
             <button className="btn btn-outline-primary btn-sm"
-            onClick={()=>navigate("/admin/issue_book")}>Issued New Book</button>
+            onClick={()=>navigate("/admin/issue-book")}>Issued New Book</button>
           </div>
         </div>
                   <div className="card border-0 shadow-sm rounded-4">

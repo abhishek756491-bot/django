@@ -81,7 +81,7 @@ const ManageStudents = () => {
               
             </div>
             <button className="btn btn-outline-primary btn-sm"
-            onClick={()=>navigate("/admin/issued_books")}>Issued Book</button>
+            onClick={()=>navigate("/admin/category_add")}>Issued Book</button>
           </div>
         </div>
                   <div className="card border-0 shadow-sm rounded-4">
@@ -130,6 +130,12 @@ const ManageStudents = () => {
                                     {student.is_active ? "Block" : "Unblock"}
                                   </button>
                                       
+                                  <button className="btn btn-sm btn-success h-2"
+                                    onClick={()=>navigate(`/admin/students/history/${student.student_id}`)}>
+                                    Details
+                                  </button>
+                                  
+
                                    </td>
                                </tr>
                               ))}

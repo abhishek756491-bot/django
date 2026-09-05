@@ -391,7 +391,7 @@ def user_login(request):
         else:
             student = Student.objects.get(student_id=login_id)
 
-    except Student.DoesNotExists:
+    except Student.DoesNotExist:
         return Response(
             {
                 "success" : False,
@@ -688,14 +688,14 @@ def list_issued_books(request):
 @api_view(["GET"])
 def get_issued_book_details(request,id=id):
     issued_book = get_object_or_404(IssuedBook,id=id)
-    serializer = IssuedBookSerializer(Issued_book)
+    serializer = IssuedBookSerializer(issued_book)
     return Response(serializer.data , status = status.HTTP_200_OK)
 
 from django.utils import timezone
 @api_view(["POST"])
-def return_book(request):
+def return_book(request,id):
     issued_book = get_object_or_404(IssuedBook,id=id)
-    if Issued_book.is_returned:
+    if issued_book.is_returned:
         return Response(
             {
                 "success" : False,
@@ -735,3 +735,20 @@ def return_book(request):
         },
         status = status.HTTP_200_OK
     )
+
+@api_view(["GET"])
+def student_issue_history(request,student_id):
+    student = get_object_or_404(Student,student_id=student_id)
+    issued_books = (
+       IssuedBook.objects.filter(student=student).select_related('student','book')
+       .order_by("-id")
+    )
+
+    issues_serializer = IssuedBookSerializer(issued_books,many=True)
+    student_serializer = StudentSerializer(student)
+    return Response({
+        "student" : student_serializer.data,
+        "issues" : issues_serializer.data
+    },
+    status=status.HTTP_200_OK)
+

@@ -115,7 +115,7 @@ const bookCoverUrl = book && book.cover_image ?
               
             </div>
             <button className="btn btn-outline-primary btn-sm"
-            onClick={()=>navigate("/admin/issued_books")}> Manage Issued Books</button>
+            onClick={()=>navigate("/admin/manage-issued-books")}> Manage Issued Books</button>
           </div>
         </div>
 

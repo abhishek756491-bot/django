@@ -41,6 +41,8 @@ urlpatterns = [
     path('api/books/lookup/', lookup_book_for_issue),
     path('api/issue-book/', issue_book),
     path('api/admin/issued-books/', list_issued_books),
-    path('api/issued-books/<int:id>/',get_issued_book_details)
+    path('api/admin/issued-books/<int:id>/',get_issued_book_details),
+    path('api/admin/return-book/<int:id>/',return_book),
+    path('api/admin/student-history/<int:student_id>/',student_issue_history)
 
 ]
