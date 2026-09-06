@@ -43,6 +43,9 @@ urlpatterns = [
     path('api/admin/issued-books/', list_issued_books),
     path('api/admin/issued-books/<int:id>/',get_issued_book_details),
     path('api/admin/return-book/<int:id>/',return_book),
-    path('api/admin/student-history/<int:student_id>/',student_issue_history)
+    path('api/admin/student-history/<int:student_id>/',student_issue_history),
+    path('api/admin/stats/',admin_dashboard_stats),
+
+    path('api/user_issued_books/',user_issued_books),
 
 ]

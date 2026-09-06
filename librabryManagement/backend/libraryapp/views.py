@@ -339,7 +339,7 @@ def user_signup(request):
             status=status.HTTP_400_BAD_REQUEST
         )
 
-    last_student = Student.objects.all().order_by().first()
+    last_student = Student.objects.all().order_by("-id").first()
     if last_student and last_student.student_id.isdigit():
         new_id_int = int(last_student.student_id) + 1
 
@@ -752,3 +752,53 @@ def student_issue_history(request,student_id):
     },
     status=status.HTTP_200_OK)
 
+@api_view(["GET"])
+def admin_dashboard_stats(request):
+    total_students = Student.objects.all().count()
+    active_students = Student.objects.filter(is_active=True).count()
+    blocked_students = Student.objects.filter(is_active=False).count()
+
+    total_books = Book.objects.count()
+    available_books = Book.objects.filter(quantity__gt=0).count()
+    out_of_stock = Book.objects.filter(quantity=0).count()
+
+    total_categories = Category.objects.count()
+    total_authors = Author.objects.count()
+
+    total_issued = IssuedBook.objects.count()
+    currently_issued = IssuedBook.objects.filter(is_returned=False).count()
+    returned_count = IssuedBook.objects.filter(is_returned=True).count()
+    
+    data = {
+        "total_students" : total_students,
+        "active_students" : active_students,
+        "blocked_students" : blocked_students,
+        "total_books" : total_books,
+        "available_books" : available_books,
+        "out_of_stock" : out_of_stock,
+        "total_categories" : total_categories,
+        "total_authors" : total_authors,
+        "total_issued" : total_issued,
+        "currently_issued" : currently_issued,
+        "returned_count" : returned_count
+    }
+
+    return Response(data,status = status.HTTP_200_OK)
+
+@api_view(["GET"])
+def user_issued_books(request):
+    student_id = request.query_params.get("student_id")
+    try:
+        student = Student.objects.get(student_id=student_id)
+    except Student.DoesNotExist:
+        return Response(
+            {
+                "success" : False,
+                "messege" : "Student not found"
+            },
+            status = status.HTTP_404_NOT_FOUND
+        )
+    issued_books = (IssuedBook.objects.filter(student=student)
+    .select_related('book','student').order_by("-id"))
+    serializer = IssuedBookSerializer(issued_books,many=True)
+    return Response(serializer.data, status = status.HTTP_200_OK)
