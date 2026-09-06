@@ -23,6 +23,7 @@ import IssueBook from './pages/IssueBook'
 import ManageIssuedBook from './pages/ManageIssuedBook'
 import IssuedBookDetails from './pages/IssuedBookDetails'
 import StudentHistory from './pages/StudentHistory'
+import StudentIssuedBooks from './pages/StudentIssuedBooks'
 
 const App = () => {
   return (
@@ -51,6 +52,7 @@ const App = () => {
         <Route path='/admin/manage-issued-books' element={<ManageIssuedBook/>}></Route>
         <Route path='/admin/issued-books/:id' element={<IssuedBookDetails/>}></Route>
         <Route path='/admin/students/history/:student_id' element={<StudentHistory/>}></Route>
+        <Route path='/user/issued-books' element={<StudentIssuedBooks/>}></Route>
       </Routes>
     </div>
   )
