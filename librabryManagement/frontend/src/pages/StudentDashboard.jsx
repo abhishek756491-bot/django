@@ -137,7 +137,7 @@ const StudentDashboard = () => {
                         Count of all books issued to you.
                     </p>
                     <div className="mt-3">
-                      <Link to="/user/books" className="small text-primary text-decoration-non">
+                      <Link to="/user/issued-books" className="small text-primary text-decoration-non">
                       View issued history <i className="fa-solid fa-arrow-right"></i></Link>
                      
                     </div>

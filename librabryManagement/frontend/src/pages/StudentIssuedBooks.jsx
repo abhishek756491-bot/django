@@ -126,11 +126,40 @@ const StudentIssuedBooks = () => {
                 </div>
             </div>
           )}           
-{/*          
+          
          {!loading && issuedBooks.length > 0 && (
             <div className="table-responsive border rounded-3">
-                <table className="table table-hower"></table>
-         )} */}
+                <table className="table table-hower mb-0">
+                    <thead>
+                        <tr>
+                            <th>s.no</th>
+                            <th>Book TItle</th>
+                            <th>ISBN</th>
+                            <th>Issue Date</th>
+                            <th>Return Date</th>
+                            <th>File (₹)</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {issuedBooks.map((issue,index) =>{
+                        return <tr key={index.id}>
+                             <td>{index + 1}</td>
+                             <td>{issue.book_title}</td>
+                             <td>{issue.book_isbn}</td>
+                             <td>{new Date(issue.issued_at).toLocaleString()}</td>
+                             <td> {issue.returned_at ? new Date(issue.returned_at).toLocaleDateString(): 
+                             <span className="text-warning fe-bold">Not returned yet</span>}</td>
+                             <td>{issue.fine || 0}</td>
+                             <td className={issue.is_returned ? 'text-success' : 'text-warning'}>
+                                {issue.is_returned ? 'returned' : 'Not returned'}
+                             </td>
+                            </tr>
+                        })}
+                    </tbody>
+                </table>
+            </div>
+         )} 
       </div>
     </div>
   )
