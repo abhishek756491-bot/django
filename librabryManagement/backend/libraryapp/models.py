@@ -2,11 +2,11 @@ from django.db import models
 
 # orm - object relational mapper
 class TimeStampedModel(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)  #create hone par time save
+    updated_at = models.DateTimeField(auto_now=True)  #har update par time change
 
-    class Meta:
-        abstract = True
+    class Meta:  # model ki extra settings/options define karne ke liye use hota hai.
+        abstract = True  #Parent model sirf common fields/code share karne ke liye hota hai, uski separate database table nahi banti.
 
 class Category(TimeStampedModel):
     name = models.CharField(max_length = 150)
